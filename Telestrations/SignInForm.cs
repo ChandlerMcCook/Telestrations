@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace Telestrations
 {
-    public partial class Form1 : Form
+    public partial class SignInForm : Form
     {
-        public Form1()
+        public SignInForm()
         {
             InitializeComponent();
+        }
+
+        private void btnDraw_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Draw button clicked!");
+        }
+
+        private void userLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
