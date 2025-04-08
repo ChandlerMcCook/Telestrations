@@ -1,8 +1,15 @@
-﻿namespace TelestrationsLibrary;
-public class Database
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TelestrationsLibrary;
+
+internal class Database
 {
-    public static void SignIn(string user, string pass)
+    public static void CreateUser() 
     {
-        Console.WriteLine("Signing in with user: " + user + " and pass: " + pass);
+        
     }
 }
