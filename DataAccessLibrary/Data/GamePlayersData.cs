@@ -14,8 +14,8 @@ namespace DataAccessLibrary.Data
             _db = db;
         }
 
-        public Task<IEnumerable<GamePlayersModel>> GetGamePlayers(int gameId) =>
-            _db.LoadData<GamePlayersModel, dynamic>("dbo.spGamePlayers_GetPlayersByGame", new { GameId = gameId });
+        public Task<IEnumerable<int>> GetGamePlayers(int gameId) =>
+            _db.LoadData<int, dynamic>("dbo.spGamePlayers_GetPlayersByGame", new { GameId = gameId });
 
         public Task InsertGamePlayer(GamePlayersModel gamePlayer) =>
             _db.SaveData("dbo.spGamePlayers_Insert", new { gamePlayer.GameId, gamePlayer.PlayerId });

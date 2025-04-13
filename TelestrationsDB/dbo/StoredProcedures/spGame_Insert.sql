@@ -9,4 +9,6 @@ begin
 	declare @GameId int = SCOPE_IDENTITY();
 	insert into dbo.[GamePlayers] ([GameId], [PlayerId])
 	values (@GameId, @HostId);
+
+	select @GameId as Id;
 end

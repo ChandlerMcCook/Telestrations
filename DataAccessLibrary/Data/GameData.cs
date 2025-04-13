@@ -25,8 +25,12 @@ public class GameData : IGameData
         return results.FirstOrDefault();
     }
 
-    public Task InsertGame(GameModel Game) =>
-        _db.SaveData("dbo.spGame_Insert", new { Game.Name, Game.HostId });
+    public async Task<int> InsertGame(GameModel Game)
+    {
+        var results = await _db.LoadData<int, dynamic>("dbo.spGame_Insert", new { Game.Name, Game.HostId });
+        return results.First();
+    }
+
     public Task UpdateGame(GameModel Game) =>
         _db.SaveData("dbo.spGame_Update", new { Game.Id, Game.Started });
 

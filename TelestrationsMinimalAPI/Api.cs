@@ -118,8 +118,8 @@ public static class Api
     {
         try
         {
-            await data.InsertGame(game);
-            return Results.Ok();
+            var result = await data.InsertGame(game);
+            return Results.Ok(result);
         }
         catch (Exception ex)
         {

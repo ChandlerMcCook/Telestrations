@@ -6,7 +6,7 @@ namespace DataAccessLibrary.Data
     {
         Task DeleteGamePlayer(int gameId, int playerId);
         Task DeleteGamePlayersByGame(int gameId);
-        Task<IEnumerable<GamePlayersModel>> GetGamePlayers(int gameId);
+        Task<IEnumerable<int>> GetGamePlayers(int gameId);
         Task InsertGamePlayer(GamePlayersModel gamePlayer);
     }
 }

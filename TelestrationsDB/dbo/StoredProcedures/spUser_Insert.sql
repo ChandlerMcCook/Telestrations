@@ -5,4 +5,6 @@ AS
 begin 
 	insert into dbo.[User] (Username, [Password])
 	values (@Username, @Password);
+
+	select SCOPE_IDENTITY() as Id;
 end

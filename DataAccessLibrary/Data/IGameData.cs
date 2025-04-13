@@ -7,7 +7,7 @@ namespace DataAccessLibrary.Data
         Task DeleteGame(int id);
         Task<GameModel?> GetGame(int id);
         Task<IEnumerable<GameModel>> GetGames();
-        Task InsertGame(GameModel Game);
+        Task<int> InsertGame(GameModel Game);
         Task UpdateGame(GameModel Game);
     }
 }
