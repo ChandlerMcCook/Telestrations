@@ -1,6 +1,6 @@
 ﻿namespace TelestrationsUI
 {
-    partial class LobbyScreenForm
+    partial class RegistrationForm
     {
         /// <summary>
         /// Required designer variable.

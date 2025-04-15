@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TelestrationsUI
 {
-    public partial class LobbyScreenForm : Form
+    public partial class RegistrationForm : Form
     {
-        public LobbyScreenForm()
+        public RegistrationForm()
         {
             InitializeComponent();
         }
