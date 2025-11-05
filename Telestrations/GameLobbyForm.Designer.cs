@@ -40,7 +40,7 @@
             lobbyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { nameCol, hostCol, membersCol });
             lobbyListView.FullRowSelect = true;
             lobbyListView.GridLines = true;
-            lobbyListView.Location = new System.Drawing.Point(49, 151);
+            lobbyListView.Location = new System.Drawing.Point(61, 178);
             lobbyListView.Name = "lobbyListView";
             lobbyListView.Size = new System.Drawing.Size(862, 459);
             lobbyListView.TabIndex = 0;

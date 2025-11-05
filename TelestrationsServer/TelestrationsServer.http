@@ -1,0 +1,6 @@
+@TelestrationsServer_HostAddress = http://localhost:5028
+
+GET {{TelestrationsServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

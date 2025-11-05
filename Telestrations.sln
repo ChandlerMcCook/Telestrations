@@ -3,21 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsUI", "Telestrations\TelestrationsUI.csproj", "{F009ECE5-B429-4AE2-9665-FF684F66795C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsLibrary", "TelestrationsLibrary\TelestrationsLibrary.csproj", "{0C37B7D0-FA76-4EA7-A442-BAC49BEB409A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsLibrary", "TelestrationsLibrary\TelestrationsLibrary.csproj", "{DFFDEA19-C077-2B3D-CD1B-CEB50A93FBB8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{4C4576FB-ECA6-4357-9B29-91E86D840C56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsConsoleTest", "TelestrationsConsoleTest\TelestrationsConsoleTest.csproj", "{06C1D770-3458-4FB9-B334-4EBA7F741BBE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsServer", "TelestrationsServer\TelestrationsServer.csproj", "{B03474C3-B1AB-4282-A091-0D31320698BD}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TelestrationsDB", "TelestrationsDB\TelestrationsDB.sqlproj", "{04507C55-1442-4872-81D2-355A8A07DE9D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLibrary", "DataAccessLibrary\DataAccessLibrary.csproj", "{0A348FEA-E0E5-47D0-ACB9-6FC5CE6D0CA0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{C2D1B49E-09F2-4BF2-91F9-1FE59D8CFC96}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsMinimalAPI", "TelestrationsMinimalAPI\TelestrationsMinimalAPI.csproj", "{DE37C39E-3DB8-464D-9A90-0F4C532AFA1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelestrationsUI", "TelestrationsUI\TelestrationsUI.csproj", "{A9BB72CB-964A-4D9B-A80E-C689CDDCA6CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,32 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F009ECE5-B429-4AE2-9665-FF684F66795C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F009ECE5-B429-4AE2-9665-FF684F66795C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F009ECE5-B429-4AE2-9665-FF684F66795C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F009ECE5-B429-4AE2-9665-FF684F66795C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFFDEA19-C077-2B3D-CD1B-CEB50A93FBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFFDEA19-C077-2B3D-CD1B-CEB50A93FBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFFDEA19-C077-2B3D-CD1B-CEB50A93FBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFFDEA19-C077-2B3D-CD1B-CEB50A93FBB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06C1D770-3458-4FB9-B334-4EBA7F741BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06C1D770-3458-4FB9-B334-4EBA7F741BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06C1D770-3458-4FB9-B334-4EBA7F741BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06C1D770-3458-4FB9-B334-4EBA7F741BBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04507C55-1442-4872-81D2-355A8A07DE9D}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{0A348FEA-E0E5-47D0-ACB9-6FC5CE6D0CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A348FEA-E0E5-47D0-ACB9-6FC5CE6D0CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A348FEA-E0E5-47D0-ACB9-6FC5CE6D0CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A348FEA-E0E5-47D0-ACB9-6FC5CE6D0CA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE37C39E-3DB8-464D-9A90-0F4C532AFA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE37C39E-3DB8-464D-9A90-0F4C532AFA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE37C39E-3DB8-464D-9A90-0F4C532AFA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE37C39E-3DB8-464D-9A90-0F4C532AFA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C37B7D0-FA76-4EA7-A442-BAC49BEB409A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C37B7D0-FA76-4EA7-A442-BAC49BEB409A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C37B7D0-FA76-4EA7-A442-BAC49BEB409A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C37B7D0-FA76-4EA7-A442-BAC49BEB409A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C4576FB-ECA6-4357-9B29-91E86D840C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C4576FB-ECA6-4357-9B29-91E86D840C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C4576FB-ECA6-4357-9B29-91E86D840C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C4576FB-ECA6-4357-9B29-91E86D840C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B03474C3-B1AB-4282-A091-0D31320698BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B03474C3-B1AB-4282-A091-0D31320698BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B03474C3-B1AB-4282-A091-0D31320698BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B03474C3-B1AB-4282-A091-0D31320698BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9BB72CB-964A-4D9B-A80E-C689CDDCA6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9BB72CB-964A-4D9B-A80E-C689CDDCA6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BB72CB-964A-4D9B-A80E-C689CDDCA6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BB72CB-964A-4D9B-A80E-C689CDDCA6CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

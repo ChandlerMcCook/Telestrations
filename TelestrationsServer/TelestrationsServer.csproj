@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccessLibrary\DataAccessLibrary.csproj" />
+    <ProjectReference Include="..\TelestrationsLibrary\TelestrationsLibrary.csproj" />
   </ItemGroup>
 
 </Project>

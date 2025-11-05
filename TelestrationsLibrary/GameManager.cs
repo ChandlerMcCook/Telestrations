@@ -2,54 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace TelestrationsLibrary;
 
 public class GameManager
 {
-    private readonly HttpClient _http;
+    public List<Game> Games { get; } = [];
 
-    public GameManager(HttpClient http)
+    public void CreateGame(string gameName, Player host)
     {
-        _http = http;
+        var game = new Game(gameName, host);
+        Games.Add(game);
     }
 
-    public async Task<HttpResponseMessage> GetUsers()
+    public Game? GetGame(uint gameId)
     {
-        var response = await _http.GetAsync("/users");
-        return response;
-    }
-
-    public async Task<HttpResponseMessage> CreateUser(string user, string pass)
-    {
-        var response = await _http.PostAsync("/users", new StringContent(JsonSerializer.Serialize(new { Username = user, Password = pass }), Encoding.UTF8, "application/json"));
-        return response;
-    }
-
-    public async Task<HttpResponseMessage> GetGames()
-    {
-        var response = await _http.GetAsync("/games");
-        return response;
-    }
-
-    public async Task<HttpResponseMessage> CreateGame(string gameName, int hostId)
-    {
-        var response = await _http.PostAsync("/games", new StringContent(JsonSerializer.Serialize(new { GameName = gameName, HostId = hostId }), Encoding.UTF8, "application/json"));
-        return response;
-    }
-
-    //public async Task<IEnumerable<HttpResponseMessage>> DeleteGame(int gameId)
-    //{
-    //    var responseGamePlayers = await _http.DeleteAsync($"/games/{gameId}/players");
-    //    var responseGame = await _http.DeleteAsync($"/games/{gameId}");
-    //    return IEnumerable<HttpResponseMessage>(responseGamePlayers, responseGame);
-    //}
-
-    public async Task<HttpResponseMessage> GetPlayersForGame(int gameId)
-    {
-        var response = await _http.GetAsync($"/games/{gameId}/players");
-        return response;
+        return Games.FirstOrDefault(g => g.Id == gameId);
     }
 }
