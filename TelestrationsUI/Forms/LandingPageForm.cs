@@ -16,7 +16,7 @@ public partial class LandingPageForm : Form
 
     private async void LoadGrid()
     {
-        List<Game>? games = await FrontendLogic.GetGamesAsync();
+        List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
 
         if (games != null)
         {

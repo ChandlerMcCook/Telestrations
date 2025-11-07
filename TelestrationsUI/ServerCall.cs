@@ -16,6 +16,11 @@ internal class ServerCall
         {
             client.BaseAddress = new Uri(serverBaseUrl);
             HttpResponseMessage response = await client.GetAsync(endpoint);
+
+
+            //HttpResponseMessage response = await client.GetAsync("https://dummy.restapiexample.com/api/v1/employees");
+
+
             return response;
         }
     }

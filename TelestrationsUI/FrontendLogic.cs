@@ -9,7 +9,7 @@ using TelestrationsLibrary;
 namespace TelestrationsUI;
 internal class FrontendLogic
 {
-    public static async Task<List<Game>?> GetGamesAsync()
+    public static async Task<List<LobbyListing>?> GetGamesAsync()
     {
         HttpResponseMessage response = await ServerCall.MakeGetRequestAsync("/games");
 
@@ -19,9 +19,14 @@ internal class FrontendLogic
             return null;
         }
 
-        string gamesJson = await response.Content.ReadAsStringAsync();
-        List<Game>? games = JsonSerializer.Deserialize<List<Game>?>(gamesJson);
-        return games;
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        string lobbyJson = await response.Content.ReadAsStringAsync();
+        List<LobbyListing>? lobbyListings = JsonSerializer.Deserialize<List<LobbyListing>?>(lobbyJson, options);
+        return lobbyListings;
     }
 
     public static async Task<bool> CreateGameAsync(string gameName, Player host)

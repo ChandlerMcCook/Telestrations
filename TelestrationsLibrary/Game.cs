@@ -8,10 +8,10 @@ namespace TelestrationsLibrary;
 
 public class Game
 {
-    public uint Id { get; }
-    public string Name { get; }
-    public Player Host { get; }
-    public List<Player> Players { get; } = [];
+    public uint Id { get; set; }
+    public string Name { get; set; }
+    public Player Host { get; set; }
+    public List<Player> Players { get; set; } = [];
     public Game() { }
     public Game(string gameName, Player host)
     {

@@ -21,7 +21,7 @@ app.UseHttpsRedirection();
 var GameManager = new GameManager();
 
 app.MapGet("/games", () => {
-    return GameManager.Games;
+    return GameManager.Games.Select(g => new LobbyListing(g)).ToList();
 });
 
 app.MapPost("/games", (string gameName, Player host) =>
