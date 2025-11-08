@@ -68,6 +68,7 @@
             gameNameTextBox.Name = "gameNameTextBox";
             gameNameTextBox.Size = new Size(319, 31);
             gameNameTextBox.TabIndex = 1;
+            gameNameTextBox.KeyDown += gameNameTextBox_KeyDown;
             // 
             // createGameButton
             // 

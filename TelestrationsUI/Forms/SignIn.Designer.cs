@@ -65,6 +65,7 @@ partial class SignIn
         playerNameTextBox.Name = "playerNameTextBox";
         playerNameTextBox.Size = new Size(319, 31);
         playerNameTextBox.TabIndex = 2;
+        playerNameTextBox.KeyDown += playerNameTextBox_KeyDown;
         // 
         // signInGroupBox
         // 

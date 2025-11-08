@@ -114,4 +114,14 @@ public partial class LandingPageForm : Form
     {
         MessageBox.Show($"Joining game with ID: {gameId}");
     }
+
+    private void gameNameTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            createGameButton.PerformClick();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
 }

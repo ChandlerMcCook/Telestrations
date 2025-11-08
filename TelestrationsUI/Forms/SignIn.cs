@@ -30,4 +30,14 @@ public partial class SignIn : Form
         landingPageForm.Show();
         this.Hide();
     }
+
+    private void playerNameTextBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Enter)
+        {
+            signInButton.PerformClick();
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+    }
 }
