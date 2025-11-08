@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using System.Windows.Forms;
 using TelestrationsLibrary;
 
 namespace TelestrationsUI;
@@ -11,10 +12,64 @@ public partial class LandingPageForm : Form
         InitializeComponent();
 
         _user = user;
-        LoadGrid();
+        SetUpGrid();
     }
 
-    private async void LoadGrid()
+    private async void SetUpGrid()
+    {
+        gamesDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+        gamesDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+        gamesDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+        gamesDataGrid.AutoGenerateColumns = false;
+
+        var idColumn = new DataGridViewTextBoxColumn
+        {
+            Name = "GameId",
+            HeaderText = "Game ID",
+            DataPropertyName = "Id",
+            Visible = false // hide this column
+        };
+        gamesDataGrid.Columns.Add(idColumn);
+
+        gamesDataGrid.Columns.Add(new DataGridViewTextBoxColumn
+        {
+            Name = "GameName",
+            HeaderText = "Game Name",
+            DataPropertyName = "GameName"
+        });
+
+        gamesDataGrid.Columns.Add(new DataGridViewTextBoxColumn
+        {
+            Name = "HostName",
+            HeaderText = "Host",
+            DataPropertyName = "HostName"
+        });
+
+        gamesDataGrid.Columns.Add(new DataGridViewTextBoxColumn
+        {
+            Name = "PlayerCount",
+            HeaderText = "Player Count",
+            DataPropertyName = "PlayerCount"
+        });
+
+        var joinButton = new DataGridViewButtonColumn
+        {
+            Name = "JoinButton",
+            HeaderText = "",
+            Text = "Join",
+            UseColumnTextForButtonValue = true
+        };
+        gamesDataGrid.Columns.Add(joinButton);
+
+        List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
+
+        if (games != null)
+        {
+            gamesDataGrid.DataSource = games;
+        }
+    }
+
+    private async void RefreshGrid()
     {
         List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
 
@@ -29,7 +84,7 @@ public partial class LandingPageForm : Form
         bool result = await FrontendLogic.CreateGameAsync(gameNameTextBox.Text, _user);
         if (result)
         {
-            LoadGrid();
+            RefreshGrid();
         }
         else
         {
@@ -39,6 +94,24 @@ public partial class LandingPageForm : Form
 
     private void refreshButton_Click(object sender, EventArgs e)
     {
-        LoadGrid();
+        RefreshGrid();
+    }
+
+    private void gamesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.RowIndex < 0)
+            return;
+
+        if (gamesDataGrid.Columns[e.ColumnIndex].Name == "JoinButton")
+        {
+            uint gameId = (uint)gamesDataGrid.Rows[e.RowIndex].Cells["GameId"].Value;
+
+            JoinGame(gameId);
+        }
+    }
+
+    private void JoinGame(uint gameId)
+    {
+        MessageBox.Show($"Joining game with ID: {gameId}");
     }
 }

@@ -31,13 +31,7 @@ internal class FrontendLogic
 
     public static async Task<bool> CreateGameAsync(string gameName, Player host)
     {
-        var payload = new
-        {
-            gameName,
-            host
-        };
-
-        HttpResponseMessage response = await ServerCall.MakePostRequestAsync("/games", payload);
+        HttpResponseMessage response = await ServerCall.MakePostRequestAsync($"/games?gameName={gameName}", host);
 
         return response.IsSuccessStatusCode;
     }

@@ -33,8 +33,8 @@
             gameNameTextBox = new TextBox();
             createGameButton = new Button();
             joinGameGroupBox = new GroupBox();
-            gamesDataGrid = new DataGridView();
             refreshButton = new Button();
+            gamesDataGrid = new DataGridView();
             hostGameGroupBox.SuspendLayout();
             joinGameGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gamesDataGrid).BeginInit();
@@ -91,15 +91,6 @@
             joinGameGroupBox.TabStop = false;
             joinGameGroupBox.Text = "Join a Game";
             // 
-            // gamesDataGrid
-            // 
-            gamesDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gamesDataGrid.Location = new Point(32, 47);
-            gamesDataGrid.Name = "gamesDataGrid";
-            gamesDataGrid.RowHeadersWidth = 62;
-            gamesDataGrid.Size = new Size(1123, 553);
-            gamesDataGrid.TabIndex = 0;
-            // 
             // refreshButton
             // 
             refreshButton.Location = new Point(1007, 9);
@@ -109,6 +100,16 @@
             refreshButton.Text = "refresh";
             refreshButton.UseVisualStyleBackColor = true;
             refreshButton.Click += refreshButton_Click;
+            // 
+            // gamesDataGrid
+            // 
+            gamesDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gamesDataGrid.Location = new Point(32, 47);
+            gamesDataGrid.Name = "gamesDataGrid";
+            gamesDataGrid.RowHeadersWidth = 62;
+            gamesDataGrid.Size = new Size(1123, 553);
+            gamesDataGrid.TabIndex = 0;
+            gamesDataGrid.CellContentClick += gamesDataGrid_CellContentClick;
             // 
             // LandingPageForm
             // 
