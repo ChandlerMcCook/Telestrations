@@ -1,4 +1,4 @@
-﻿namespace TelestrationsUI.Forms;
+﻿namespace TelestrationsUI;
 
 partial class GameScreen
 {
@@ -28,11 +28,49 @@ partial class GameScreen
     /// </summary>
     private void InitializeComponent()
     {
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "GameScreen";
+        canvasPictureBox = new PictureBox();
+        toolsGroupBox = new GroupBox();
+        ((System.ComponentModel.ISupportInitialize)canvasPictureBox).BeginInit();
+        SuspendLayout();
+        // 
+        // canvasPictureBox
+        // 
+        canvasPictureBox.BackColor = SystemColors.Window;
+        canvasPictureBox.Location = new Point(12, 150);
+        canvasPictureBox.Name = "canvasPictureBox";
+        canvasPictureBox.Size = new Size(1250, 775);
+        canvasPictureBox.TabIndex = 2;
+        canvasPictureBox.TabStop = false;
+        canvasPictureBox.MouseDown += canvasPictureBox_MouseDown;
+        canvasPictureBox.MouseMove += canvasPictureBox_MouseMove;
+        canvasPictureBox.MouseUp += canvasPictureBox_MouseUp;
+        // 
+        // toolsGroupBox
+        // 
+        toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Location = new Point(12, 20);
+        toolsGroupBox.Name = "toolsGroupBox";
+        toolsGroupBox.Size = new Size(1250, 120);
+        toolsGroupBox.TabIndex = 3;
+        toolsGroupBox.TabStop = false;
+        // 
+        // GameScreen
+        // 
+        AutoScaleDimensions = new SizeF(10F, 25F);
+        AutoScaleMode = AutoScaleMode.Font;
+        BackColor = SystemColors.ActiveCaption;
+        ClientSize = new Size(1278, 944);
+        Controls.Add(toolsGroupBox);
+        Controls.Add(canvasPictureBox);
+        Name = "GameScreen";
+        Text = "GameScreen";
+        FormClosed += GameScreen_FormClosed;
+        ((System.ComponentModel.ISupportInitialize)canvasPictureBox).EndInit();
+        ResumeLayout(false);
     }
 
     #endregion
+
+    private PictureBox canvasPictureBox;
+    private GroupBox toolsGroupBox;
 }

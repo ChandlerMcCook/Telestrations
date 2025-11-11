@@ -108,6 +108,7 @@ partial class SignIn
         Controls.Add(signInGroupBox);
         Name = "SignIn";
         Text = "SignIn";
+        FormClosed += SignIn_FormClosed;
         ((System.ComponentModel.ISupportInitialize)logoPictureBox).EndInit();
         signInGroupBox.ResumeLayout(false);
         signInGroupBox.PerformLayout();

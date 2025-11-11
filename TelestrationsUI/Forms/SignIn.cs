@@ -26,9 +26,11 @@ public partial class SignIn : Form
             return;
         }
         Player user = new Player(playerName);
-        LandingPageForm landingPageForm = new LandingPageForm(user);
-        landingPageForm.Show();
-        this.Hide();
+
+        LandingPage landingPage = new LandingPage(user);
+        landingPage.Show();
+
+        this.Close();
     }
 
     private void playerNameTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -38,6 +40,14 @@ public partial class SignIn : Form
             signInButton.PerformClick();
             e.Handled = true;
             e.SuppressKeyPress = true;
+        }
+    }
+
+    private void SignIn_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        if (Application.OpenForms.Count == 0)
+        {
+            Application.Exit();
         }
     }
 }

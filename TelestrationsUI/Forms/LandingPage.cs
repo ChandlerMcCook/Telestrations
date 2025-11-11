@@ -4,10 +4,10 @@ using TelestrationsLibrary;
 
 namespace TelestrationsUI;
 
-public partial class LandingPageForm : Form
+public partial class LandingPage : Form
 {
     private readonly Player _user;
-    public LandingPageForm(Player user)
+    public LandingPage(Player user)
     {
         InitializeComponent();
 
@@ -68,7 +68,6 @@ public partial class LandingPageForm : Form
             gamesDataGrid.DataSource = games;
         }
     }
-
     private async void RefreshGrid()
     {
         List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
@@ -78,7 +77,11 @@ public partial class LandingPageForm : Form
             gamesDataGrid.DataSource = games;
         }
     }
-
+    private void JoinGame(uint gameId)
+    {
+        MessageBox.Show($"Joining game with ID: {gameId}");
+        GameScreen gameScreen = new GameScreen();
+    }
     private async void createGameButton_Click(object sender, EventArgs e)
     {
         bool result = await FrontendLogic.CreateGameAsync(gameNameTextBox.Text, _user);
@@ -91,12 +94,10 @@ public partial class LandingPageForm : Form
             MessageBox.Show("Error creating game. Please try again.");
         }
     }
-
     private void refreshButton_Click(object sender, EventArgs e)
     {
         RefreshGrid();
     }
-
     private void gamesDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
         if (e.RowIndex < 0)
@@ -109,12 +110,6 @@ public partial class LandingPageForm : Form
             JoinGame(gameId);
         }
     }
-
-    private void JoinGame(uint gameId)
-    {
-        MessageBox.Show($"Joining game with ID: {gameId}");
-    }
-
     private void gameNameTextBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Enter)
@@ -122,6 +117,13 @@ public partial class LandingPageForm : Form
             createGameButton.PerformClick();
             e.Handled = true;
             e.SuppressKeyPress = true;
+        }
+    }
+    private void LandingPage_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        if (Application.OpenForms.Count == 0)
+        {
+            Application.Exit();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TelestrationsUI
 {
-    partial class LandingPageForm
+    partial class LandingPage
     {
         /// <summary>
         ///  Required designer variable.
@@ -112,15 +112,16 @@
             gamesDataGrid.TabIndex = 0;
             gamesDataGrid.CellContentClick += gamesDataGrid_CellContentClick;
             // 
-            // LandingPageForm
+            // LandingPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1278, 944);
             Controls.Add(joinGameGroupBox);
             Controls.Add(hostGameGroupBox);
-            Name = "LandingPageForm";
+            Name = "LandingPage";
             Text = "Pick a Game";
+            FormClosed += LandingPage_FormClosed;
             hostGameGroupBox.ResumeLayout(false);
             hostGameGroupBox.PerformLayout();
             joinGameGroupBox.ResumeLayout(false);
