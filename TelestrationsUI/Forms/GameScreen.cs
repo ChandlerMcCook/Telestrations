@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TelestrationsLibrary;
 
 namespace TelestrationsUI;
 public partial class GameScreen : Form
@@ -19,7 +20,7 @@ public partial class GameScreen : Form
     {
         InitializeComponent();
 
-        canvas = new Bitmap(1250, 775);
+        canvas = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
     }
 
     private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -36,6 +37,7 @@ public partial class GameScreen : Form
             {
                 g.DrawLine(Pens.Black, lastPoint, e.Location);
             }
+            lastPoint = e.Location;
             canvasPictureBox.Image = canvas;
         }
     }
@@ -50,5 +52,11 @@ public partial class GameScreen : Form
     private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
     {
         isDrawing = false;
+    }
+
+    private void resetButton_Click(object sender, EventArgs e)
+    {
+        canvas = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        canvasPictureBox.Image = canvas;
     }
 }

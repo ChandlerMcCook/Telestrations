@@ -30,7 +30,9 @@ partial class GameScreen
     {
         canvasPictureBox = new PictureBox();
         toolsGroupBox = new GroupBox();
+        resetButton = new Button();
         ((System.ComponentModel.ISupportInitialize)canvasPictureBox).BeginInit();
+        toolsGroupBox.SuspendLayout();
         SuspendLayout();
         // 
         // canvasPictureBox
@@ -48,11 +50,22 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(resetButton);
         toolsGroupBox.Location = new Point(12, 20);
         toolsGroupBox.Name = "toolsGroupBox";
         toolsGroupBox.Size = new Size(1250, 120);
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
+        // 
+        // resetButton
+        // 
+        resetButton.Location = new Point(1166, 43);
+        resetButton.Name = "resetButton";
+        resetButton.Size = new Size(53, 40);
+        resetButton.TabIndex = 0;
+        resetButton.Text = "button1";
+        resetButton.UseVisualStyleBackColor = true;
+        resetButton.Click += resetButton_Click;
         // 
         // GameScreen
         // 
@@ -66,6 +79,7 @@ partial class GameScreen
         Text = "GameScreen";
         FormClosed += GameScreen_FormClosed;
         ((System.ComponentModel.ISupportInitialize)canvasPictureBox).EndInit();
+        toolsGroupBox.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -73,4 +87,5 @@ partial class GameScreen
 
     private PictureBox canvasPictureBox;
     private GroupBox toolsGroupBox;
+    private Button resetButton;
 }
