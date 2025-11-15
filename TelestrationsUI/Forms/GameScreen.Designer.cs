@@ -44,6 +44,7 @@ partial class GameScreen
         canvasPictureBox.TabIndex = 2;
         canvasPictureBox.TabStop = false;
         canvasPictureBox.MouseDown += canvasPictureBox_MouseDown;
+        canvasPictureBox.MouseLeave += canvasPictureBox_MouseLeave;
         canvasPictureBox.MouseMove += canvasPictureBox_MouseMove;
         canvasPictureBox.MouseUp += canvasPictureBox_MouseUp;
         // 

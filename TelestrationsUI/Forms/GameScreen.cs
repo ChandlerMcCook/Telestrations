@@ -59,4 +59,9 @@ public partial class GameScreen : Form
         canvas = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
         canvasPictureBox.Image = canvas;
     }
+
+    private void canvasPictureBox_MouseLeave(object sender, EventArgs e)
+    {
+        isDrawing = false;
+    }
 }
