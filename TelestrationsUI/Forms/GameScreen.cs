@@ -8,39 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
+using TelestrationsUI.Components;
 
 namespace TelestrationsUI;
 public partial class GameScreen : Form
 {
-    private bool isDrawing = false;
-    private Point lastPoint = Point.Empty;
-    private Bitmap canvas;
+    private bool _isDrawing = false;
+    private Point _lastPoint = Point.Empty;
+    private Bitmap _image;
+    private Color _color = Color.Black;
+    private Pen _pen = new Pen(Color.Black, 1);
 
     public GameScreen()
     {
         InitializeComponent();
 
-        canvas = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
     }
 
-    private void canvasPictureBox_MouseDown(object sender, MouseEventArgs e)
-    {
-        isDrawing = true;
-        lastPoint = e.Location;
-    }
-
-    private void canvasPictureBox_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (isDrawing)
-        {
-            using (Graphics g = Graphics.FromImage(canvas))
-            {
-                g.DrawLine(Pens.Black, lastPoint, e.Location);
-            }
-            lastPoint = e.Location;
-            canvasPictureBox.Image = canvas;
-        }
-    }
     private void GameScreen_FormClosed(object sender, FormClosedEventArgs e)
     {
         if (Application.OpenForms.Count == 0)
@@ -49,19 +34,14 @@ public partial class GameScreen : Form
         }
     }
 
-    private void canvasPictureBox_MouseUp(object sender, MouseEventArgs e)
-    {
-        isDrawing = false;
-    }
-
     private void resetButton_Click(object sender, EventArgs e)
     {
-        canvas = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
-        canvasPictureBox.Image = canvas;
+        telestrationsCanvas.ClearCanvas();
     }
 
-    private void canvasPictureBox_MouseLeave(object sender, EventArgs e)
+    private void penSizeTrackBar_Scroll(object sender, EventArgs e)
     {
-        isDrawing = false;
+        telestrationsCanvas.TelePen.Width = penSizeTrackBar.Value;
+        label1.Text = $"Pen Size: {penSizeTrackBar.Value}";
     }
 }

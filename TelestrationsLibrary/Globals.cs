@@ -8,4 +8,6 @@ public static class Globals
     // UI
     public static readonly int CANVAS_SIZE_X = 1250;
     public static readonly int CANVAS_SIZE_Y = 775;
+    public static readonly float MAX_ZOOM = 4.0f;
+    public static readonly float MIN_ZOOM = 0.50f;
 }

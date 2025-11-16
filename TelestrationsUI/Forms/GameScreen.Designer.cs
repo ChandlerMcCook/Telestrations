@@ -28,35 +28,46 @@ partial class GameScreen
     /// </summary>
     private void InitializeComponent()
     {
-        canvasPictureBox = new PictureBox();
         toolsGroupBox = new GroupBox();
+        label1 = new Label();
+        penSizeTrackBar = new TrackBar();
         resetButton = new Button();
-        ((System.ComponentModel.ISupportInitialize)canvasPictureBox).BeginInit();
+        telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
         toolsGroupBox.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).BeginInit();
         SuspendLayout();
-        // 
-        // canvasPictureBox
-        // 
-        canvasPictureBox.BackColor = SystemColors.Window;
-        canvasPictureBox.Location = new Point(12, 150);
-        canvasPictureBox.Name = "canvasPictureBox";
-        canvasPictureBox.Size = new Size(1250, 775);
-        canvasPictureBox.TabIndex = 2;
-        canvasPictureBox.TabStop = false;
-        canvasPictureBox.MouseDown += canvasPictureBox_MouseDown;
-        canvasPictureBox.MouseLeave += canvasPictureBox_MouseLeave;
-        canvasPictureBox.MouseMove += canvasPictureBox_MouseMove;
-        canvasPictureBox.MouseUp += canvasPictureBox_MouseUp;
         // 
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(label1);
+        toolsGroupBox.Controls.Add(penSizeTrackBar);
         toolsGroupBox.Controls.Add(resetButton);
         toolsGroupBox.Location = new Point(12, 20);
         toolsGroupBox.Name = "toolsGroupBox";
         toolsGroupBox.Size = new Size(1250, 120);
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
+        // 
+        // label1
+        // 
+        label1.AutoSize = true;
+        label1.Location = new Point(425, 44);
+        label1.Name = "label1";
+        label1.Size = new Size(0, 25);
+        label1.TabIndex = 2;
+        // 
+        // penSizeTrackBar
+        // 
+        penSizeTrackBar.Location = new Point(26, 30);
+        penSizeTrackBar.Maximum = 30;
+        penSizeTrackBar.Minimum = 1;
+        penSizeTrackBar.Name = "penSizeTrackBar";
+        penSizeTrackBar.Size = new Size(321, 69);
+        penSizeTrackBar.TabIndex = 1;
+        penSizeTrackBar.Value = 1;
+        penSizeTrackBar.Scroll += penSizeTrackBar_Scroll;
         // 
         // resetButton
         // 
@@ -68,25 +79,38 @@ partial class GameScreen
         resetButton.UseVisualStyleBackColor = true;
         resetButton.Click += resetButton_Click;
         // 
+        // telestrationsCanvas
+        // 
+        telestrationsCanvas.BackColor = SystemColors.Window;
+        telestrationsCanvas.CurrentColor = Color.Black;
+        telestrationsCanvas.Location = new Point(12, 150);
+        telestrationsCanvas.Name = "telestrationsCanvas";
+        telestrationsCanvas.Size = new Size(1250, 775);
+        telestrationsCanvas.TabIndex = 4;
+        telestrationsCanvas.TabStop = false;
+        // 
         // GameScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
         ClientSize = new Size(1278, 944);
+        Controls.Add(telestrationsCanvas);
         Controls.Add(toolsGroupBox);
-        Controls.Add(canvasPictureBox);
         Name = "GameScreen";
         Text = "GameScreen";
         FormClosed += GameScreen_FormClosed;
-        ((System.ComponentModel.ISupportInitialize)canvasPictureBox).EndInit();
         toolsGroupBox.ResumeLayout(false);
+        toolsGroupBox.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).EndInit();
+        ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).EndInit();
         ResumeLayout(false);
     }
 
     #endregion
-
-    private PictureBox canvasPictureBox;
     private GroupBox toolsGroupBox;
     private Button resetButton;
+    private TrackBar penSizeTrackBar;
+    private Label label1;
+    private Components.TelestrationsPictureBox telestrationsCanvas;
 }
