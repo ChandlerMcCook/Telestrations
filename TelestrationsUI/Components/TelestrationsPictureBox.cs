@@ -42,6 +42,10 @@ public partial class TelestrationsPictureBox : PictureBox
         this.SetStyle(ControlStyles.UserMouse, true);
         this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+
+        TelePen.StartCap = LineCap.Round;
+        TelePen.EndCap = LineCap.Round;
+        TelePen.LineJoin = LineJoin.Round;
     }
 
     public void ClearCanvas()
@@ -104,12 +108,32 @@ public partial class TelestrationsPictureBox : PictureBox
             case MouseButtons.Left:
                 if (_isDrawing)
                 {
+                    float radius = TelePen.Width / 2f;
+                    PointF lastImagePoint = ScreenToImage(_lastPoint);
+                    PointF currentImagePoint = ScreenToImage(e.Location);
                     using (Graphics g = Graphics.FromImage(_image))
                     {
-                        g.DrawLine(
-                            TelePen,
-                            ScreenToImage(_lastPoint),
-                            ScreenToImage(e.Location)
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                        // draw a filled circle at lastImagePoint 
+                        g.FillEllipse(
+                            new SolidBrush(TelePen.Color),
+                            lastImagePoint.X - radius,
+                            lastImagePoint.Y - radius,
+                            TelePen.Width,
+                            TelePen.Width
+                        );
+
+                        // draw a line between lastImagePoint and currentImagePoint
+                        g.DrawLine(TelePen, lastImagePoint, currentImagePoint);
+
+                        // draw a filled circle at currentImagePoint
+                        g.FillEllipse(
+                            new SolidBrush(TelePen.Color),
+                            currentImagePoint.X - radius,
+                            currentImagePoint.Y - radius,
+                            TelePen.Width,
+                            TelePen.Width
                         );
                     }
                     _lastPoint = e.Location;
