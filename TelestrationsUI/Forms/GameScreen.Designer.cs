@@ -29,7 +29,6 @@ partial class GameScreen
     private void InitializeComponent()
     {
         toolsGroupBox = new GroupBox();
-        label1 = new Label();
         penSizeTrackBar = new TrackBar();
         resetButton = new Button();
         telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
@@ -41,7 +40,6 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
-        toolsGroupBox.Controls.Add(label1);
         toolsGroupBox.Controls.Add(penSizeTrackBar);
         toolsGroupBox.Controls.Add(resetButton);
         toolsGroupBox.Location = new Point(12, 20);
@@ -49,14 +47,6 @@ partial class GameScreen
         toolsGroupBox.Size = new Size(1250, 120);
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
-        // 
-        // label1
-        // 
-        label1.AutoSize = true;
-        label1.Location = new Point(425, 44);
-        label1.Name = "label1";
-        label1.Size = new Size(0, 25);
-        label1.TabIndex = 2;
         // 
         // penSizeTrackBar
         // 
@@ -111,6 +101,5 @@ partial class GameScreen
     private GroupBox toolsGroupBox;
     private Button resetButton;
     private TrackBar penSizeTrackBar;
-    private Label label1;
     private Components.TelestrationsPictureBox telestrationsCanvas;
 }

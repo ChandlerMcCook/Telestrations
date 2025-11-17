@@ -10,4 +10,5 @@ public static class Globals
     public static readonly int CANVAS_SIZE_Y = 775;
     public static readonly float MAX_ZOOM = 4.0f;
     public static readonly float MIN_ZOOM = 0.50f;
+    public static readonly int ZOOMED_IN_BORDER_PIXELS = 50;
 }

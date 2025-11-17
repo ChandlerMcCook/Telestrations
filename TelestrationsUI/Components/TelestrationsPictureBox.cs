@@ -60,9 +60,12 @@ public partial class TelestrationsPictureBox : PictureBox
                 _lastPoint = e.Location;
                 break;
             case MouseButtons.Middle:
-                _panMouseLocation = e.Location;
-                _imageLocation = _imageRect.Location;
-                this.Cursor = Cursors.NoMove2D;
+                if (_zoomFactor >= 1f) // only pan when zoomed in
+                {
+                    _panMouseLocation = e.Location;
+                    _imageLocation = _imageRect.Location;
+                    this.Cursor = Cursors.NoMove2D;
+                }
                 break;
         }
 
@@ -113,42 +116,26 @@ public partial class TelestrationsPictureBox : PictureBox
                 }
                 break;
             case MouseButtons.Middle:
-                if (_zoomFactor > 1.0f)
-                {
-                    float xChange = e.Location.X - _panMouseLocation.X;
-                    float yChange = e.Location.Y - _panMouseLocation.Y;
+                if (_zoomFactor < 1f) break;
 
-                    float scaledImageWidth = _imageRect.Width * _zoomFactor;
-                    float scaledImageHeight = _imageRect.Height * _zoomFactor;
+                float newX = _imageLocation.X + (e.Location.X - _panMouseLocation.X);
+                float newY = _imageLocation.Y + (e.Location.Y - _panMouseLocation.Y);
+                float scaledImageWidth = _imageRect.Width * _zoomFactor; // basically the boundary of the image scaled to zoom
+                float scaledImageHeight = _imageRect.Height * _zoomFactor;
 
-                    float newX = _imageLocation.X;
-                    float newY = _imageLocation.Y;
-                    //var test1 = _imageRect.X + leftChange;
-                    //var test2 = _imageRect.X + leftChange + scaledImageWidth;
-                    //var test3 = _imageRect.Y + upChange;
-                    //var test4 = _imageRect.Y + upChange + scaledImageHeight;
+                newX = Math.Min(newX, Globals.ZOOMED_IN_BORDER_PIXELS);
+                newX = newX + scaledImageWidth > Globals.CANVAS_SIZE_X
+                    ? newX
+                    : Globals.CANVAS_SIZE_X - scaledImageWidth - Globals.ZOOMED_IN_BORDER_PIXELS
+                ;
 
-                    if (
-                        (_imageRect.X > 0 || xChange > 0) &&
-                        (_imageRect.X + scaledImageWidth < Globals.CANVAS_SIZE_X || xChange < 0)
-                    )
-                    {
-                        newX += xChange;
-                    }
+                newY = Math.Min(newY, Globals.ZOOMED_IN_BORDER_PIXELS);
+                newY = newY + scaledImageHeight > Globals.CANVAS_SIZE_Y 
+                    ? newY
+                    : Globals.CANVAS_SIZE_Y - scaledImageHeight - Globals.ZOOMED_IN_BORDER_PIXELS
+                ;
 
-                    if (
-                        (_imageRect.Y > 0 || yChange > 0) &&
-                        (_imageRect.Y + scaledImageHeight < Globals.CANVAS_SIZE_Y || yChange < 0)
-                    )
-                    {
-                        newY += yChange;
-                    }
-
-                    _imageRect.Location = new PointF(
-                        newX,
-                        newY
-                    );
-                }
+                _imageRect.Location = new PointF(newX, newY);
 
                 break;
         }
@@ -167,6 +154,18 @@ public partial class TelestrationsPictureBox : PictureBox
         _zoomFactor += e.Delta > 0 ? _zoomStep : -_zoomStep;
         _zoomFactor = Math.Max(Globals.MIN_ZOOM, _zoomFactor); // clamp
         _zoomFactor = Math.Min(Globals.MAX_ZOOM, _zoomFactor); // clamp
+
+        if (_zoomFactor < 1.0f)
+        {
+            float drawW = _imageRect.Width * _zoomFactor;
+            float drawH = _imageRect.Height * _zoomFactor;
+
+            _imageRect.X = (this.Width - drawW) / 2f;
+            _imageRect.Y = (this.Height - drawH) / 2f;
+
+            this.Invalidate();
+            return; // skip offset mouse stuff when auto-centered
+        }
 
         _imageRect = OffsetScaledRectangleOnMousePosition(_imageRect, oldZoom, e.Location);
 

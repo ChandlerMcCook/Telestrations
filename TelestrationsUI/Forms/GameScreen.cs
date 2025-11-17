@@ -42,6 +42,5 @@ public partial class GameScreen : Form
     private void penSizeTrackBar_Scroll(object sender, EventArgs e)
     {
         telestrationsCanvas.TelePen.Width = penSizeTrackBar.Value;
-        label1.Text = $"Pen Size: {penSizeTrackBar.Value}";
     }
 }
