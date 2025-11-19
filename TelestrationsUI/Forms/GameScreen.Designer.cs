@@ -32,6 +32,7 @@ partial class GameScreen
         penSizeTrackBar = new TrackBar();
         resetButton = new Button();
         telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
+        colorRadioButton1 = new TelestrationsUI.Components.ColorRadioButton();
         toolsGroupBox.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).BeginInit();
         ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).BeginInit();
@@ -40,6 +41,7 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(colorRadioButton1);
         toolsGroupBox.Controls.Add(penSizeTrackBar);
         toolsGroupBox.Controls.Add(resetButton);
         toolsGroupBox.Location = new Point(12, 20);
@@ -79,6 +81,19 @@ partial class GameScreen
         telestrationsCanvas.TabIndex = 4;
         telestrationsCanvas.TabStop = false;
         // 
+        // colorRadioButton1
+        // 
+        colorRadioButton1.AutoSize = true;
+        colorRadioButton1.Location = new Point(522, 40);
+        colorRadioButton1.Name = "colorRadioButton1";
+        colorRadioButton1.OffColor = Color.LightCoral;
+        colorRadioButton1.OnColor = Color.IndianRed;
+        colorRadioButton1.Size = new Size(186, 29);
+        colorRadioButton1.TabIndex = 2;
+        colorRadioButton1.TabStop = true;
+        colorRadioButton1.Text = "colorRadioButton1";
+        colorRadioButton1.UseVisualStyleBackColor = true;
+        // 
         // GameScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
@@ -102,4 +117,5 @@ partial class GameScreen
     private Button resetButton;
     private TrackBar penSizeTrackBar;
     private Components.TelestrationsPictureBox telestrationsCanvas;
+    private Components.ColorRadioButton colorRadioButton1;
 }

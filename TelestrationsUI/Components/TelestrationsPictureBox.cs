@@ -51,6 +51,7 @@ public partial class TelestrationsPictureBox : PictureBox
     public void ClearCanvas()
     {
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        this.Invalidate();
     }
 
     protected override void OnMouseDown(MouseEventArgs e)

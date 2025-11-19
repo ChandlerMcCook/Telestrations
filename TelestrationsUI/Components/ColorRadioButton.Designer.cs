@@ -7,7 +7,6 @@ partial class ColorRadioButton
     /// Required designer variable.
     /// </summary>
     private System.ComponentModel.IContainer components = null;
-
     public AutoScaleMode AutoScaleMode { get; private set; }
 
     /// <summary> 
