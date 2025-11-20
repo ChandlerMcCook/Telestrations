@@ -29,10 +29,12 @@ partial class GameScreen
     private void InitializeComponent()
     {
         toolsGroupBox = new GroupBox();
+        redoButton = new Button();
+        undoButton = new Button();
+        colorRadioButton1 = new TelestrationsUI.Components.ColorRadioButton();
         penSizeTrackBar = new TrackBar();
         resetButton = new Button();
         telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
-        colorRadioButton1 = new TelestrationsUI.Components.ColorRadioButton();
         toolsGroupBox.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).BeginInit();
         ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).BeginInit();
@@ -41,18 +43,53 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(redoButton);
+        toolsGroupBox.Controls.Add(undoButton);
         toolsGroupBox.Controls.Add(colorRadioButton1);
         toolsGroupBox.Controls.Add(penSizeTrackBar);
         toolsGroupBox.Controls.Add(resetButton);
-        toolsGroupBox.Location = new Point(12, 20);
+        toolsGroupBox.Location = new Point(12, 24);
         toolsGroupBox.Name = "toolsGroupBox";
         toolsGroupBox.Size = new Size(1250, 120);
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
         // 
+        // redoButton
+        // 
+        redoButton.Location = new Point(504, 22);
+        redoButton.Name = "redoButton";
+        redoButton.Size = new Size(59, 34);
+        redoButton.TabIndex = 4;
+        redoButton.Text = "redo";
+        redoButton.UseVisualStyleBackColor = true;
+        redoButton.Click += redoButton_Click;
+        // 
+        // undoButton
+        // 
+        undoButton.Location = new Point(405, 22);
+        undoButton.Name = "undoButton";
+        undoButton.Size = new Size(64, 34);
+        undoButton.TabIndex = 3;
+        undoButton.Text = "undo";
+        undoButton.UseVisualStyleBackColor = true;
+        undoButton.Click += undoButton_Click;
+        // 
+        // colorRadioButton1
+        // 
+        colorRadioButton1.AutoSize = true;
+        colorRadioButton1.Location = new Point(887, 43);
+        colorRadioButton1.Name = "colorRadioButton1";
+        colorRadioButton1.OffColor = Color.LightCoral;
+        colorRadioButton1.OnColor = Color.IndianRed;
+        colorRadioButton1.Size = new Size(186, 29);
+        colorRadioButton1.TabIndex = 2;
+        colorRadioButton1.TabStop = true;
+        colorRadioButton1.Text = "colorRadioButton1";
+        colorRadioButton1.UseVisualStyleBackColor = true;
+        // 
         // penSizeTrackBar
         // 
-        penSizeTrackBar.Location = new Point(26, 30);
+        penSizeTrackBar.Location = new Point(6, 43);
         penSizeTrackBar.Maximum = 30;
         penSizeTrackBar.Minimum = 1;
         penSizeTrackBar.Name = "penSizeTrackBar";
@@ -81,19 +118,6 @@ partial class GameScreen
         telestrationsCanvas.TabIndex = 4;
         telestrationsCanvas.TabStop = false;
         // 
-        // colorRadioButton1
-        // 
-        colorRadioButton1.AutoSize = true;
-        colorRadioButton1.Location = new Point(522, 40);
-        colorRadioButton1.Name = "colorRadioButton1";
-        colorRadioButton1.OffColor = Color.LightCoral;
-        colorRadioButton1.OnColor = Color.IndianRed;
-        colorRadioButton1.Size = new Size(186, 29);
-        colorRadioButton1.TabIndex = 2;
-        colorRadioButton1.TabStop = true;
-        colorRadioButton1.Text = "colorRadioButton1";
-        colorRadioButton1.UseVisualStyleBackColor = true;
-        // 
         // GameScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
@@ -118,4 +142,6 @@ partial class GameScreen
     private TrackBar penSizeTrackBar;
     private Components.TelestrationsPictureBox telestrationsCanvas;
     private Components.ColorRadioButton colorRadioButton1;
+    private Button redoButton;
+    private Button undoButton;
 }

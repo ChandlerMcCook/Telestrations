@@ -43,4 +43,24 @@ public partial class GameScreen : Form
     {
         telestrationsCanvas.TelePen.Width = penSizeTrackBar.Value;
     }
+
+    private void undoButton_Click(object sender, EventArgs e)
+    {
+        if (telestrationsCanvas.CanvasImageHistory.CanUndo())
+        {
+            Bitmap undoImage = telestrationsCanvas.CanvasImageHistory.Undo();
+            telestrationsCanvas.SetCanvas(undoImage);
+        }
+        redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
+    }
+
+    private void redoButton_Click(object sender, EventArgs e)
+    {
+        if (telestrationsCanvas.CanvasImageHistory.CanRedo())
+        {
+            Bitmap redoImage = telestrationsCanvas.CanvasImageHistory.Redo();
+            telestrationsCanvas.SetCanvas(redoImage);
+        }
+        redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
+    }
 }

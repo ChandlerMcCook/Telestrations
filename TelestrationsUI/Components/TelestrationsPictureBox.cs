@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
+using TelestrationsUI.UIObjects;
 
 namespace TelestrationsUI.Components;
 public partial class TelestrationsPictureBox : PictureBox
@@ -33,6 +34,7 @@ public partial class TelestrationsPictureBox : PictureBox
         get { return TelePen.Color; }
         set { TelePen.Color = value; }
     }
+    public ImageHistory CanvasImageHistory { get; set; }
 
     public TelestrationsPictureBox() : this(new Size(100, 100)) { }
     public TelestrationsPictureBox(Size size)
@@ -42,6 +44,7 @@ public partial class TelestrationsPictureBox : PictureBox
         this.SetStyle(ControlStyles.UserMouse, true);
         this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        CanvasImageHistory = new ImageHistory(_image);
 
         TelePen.StartCap = LineCap.Round;
         TelePen.EndCap = LineCap.Round;
@@ -51,6 +54,12 @@ public partial class TelestrationsPictureBox : PictureBox
     public void ClearCanvas()
     {
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        this.Invalidate();
+    }
+
+    public void SetCanvas(Bitmap picture)
+    {
+        _image = picture;
         this.Invalidate();
     }
 
@@ -85,6 +94,7 @@ public partial class TelestrationsPictureBox : PictureBox
         {
             case MouseButtons.Left:
                 _isDrawing = false;
+                CanvasImageHistory.AddImage(_image);
                 break;
             case MouseButtons.Middle:
                 this.Cursor = Cursors.Default;
