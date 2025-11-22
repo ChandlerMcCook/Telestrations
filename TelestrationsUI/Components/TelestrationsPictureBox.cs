@@ -10,14 +10,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
 using TelestrationsUI.UIObjects;
+using static TelestrationsLibrary.Globals;
 
 namespace TelestrationsUI.Components;
 public partial class TelestrationsPictureBox : PictureBox
 {
     private Bitmap _image;
+
     // drawing
     private bool _isDrawing = false;
     private Point _lastPoint = Point.Empty;
+
     // zoom
     private RectangleF _imageRect = new RectangleF(
         Point.Empty,
@@ -28,6 +31,10 @@ public partial class TelestrationsPictureBox : PictureBox
     private float _zoomFactor = 1.0f;
     private float _zoomStep = .15f;
 
+    // selection
+    private RectangleF _selectionRect = new RectangleF();
+    private Brush _selectionBrush = new SolidBrush(Color.Gray);
+
     public Pen TelePen { get; set; } = new Pen(Color.Black, 1);
     public Color CurrentColor
     {
@@ -35,6 +42,13 @@ public partial class TelestrationsPictureBox : PictureBox
         set { TelePen.Color = value; }
     }
     public ImageHistory CanvasImageHistory { get; set; }
+    public DrawingMode DrawMode { get; set; } = DrawingMode.Draw;
+    public Cursor TeleCursor
+    {
+        get { return this.Cursor; }
+        set { this.Cursor = value; }
+    }
+    public bool SmoothMode { get; set; } = false;
 
     public TelestrationsPictureBox() : this(new Size(100, 100)) { }
     public TelestrationsPictureBox(Size size)
@@ -70,8 +84,16 @@ public partial class TelestrationsPictureBox : PictureBox
         switch (e.Button)
         {
             case MouseButtons.Left:
-                _isDrawing = true;
-                _lastPoint = e.Location;
+                if (DrawMode == DrawingMode.Draw)
+                {
+                    _isDrawing = true;
+                    _lastPoint = e.Location;
+                }
+                else
+                {
+                    PointF zoomCoords = ScreenToImage(e.Location);
+                    FloodFill.FloodFillBitmap(_image, new Point((int)zoomCoords.X, (int)zoomCoords.Y), TelePen.Color);
+                }
                 break;
             case MouseButtons.Middle:
                 if (_zoomFactor >= 1f) // only pan when zoomed in
@@ -80,6 +102,10 @@ public partial class TelestrationsPictureBox : PictureBox
                     _imageLocation = _imageRect.Location;
                     this.Cursor = Cursors.NoMove2D;
                 }
+                break;
+            case MouseButtons.Right:
+                _isDrawing = false;
+                _lastPoint = e.Location;
                 break;
         }
 
@@ -97,7 +123,7 @@ public partial class TelestrationsPictureBox : PictureBox
                 CanvasImageHistory.AddImage(_image);
                 break;
             case MouseButtons.Middle:
-                this.Cursor = Cursors.Default;
+                this.Cursor = TeleCursor;
                 break;
         }
 
@@ -124,7 +150,12 @@ public partial class TelestrationsPictureBox : PictureBox
                     PointF currentImagePoint = ScreenToImage(e.Location);
                     using (Graphics g = Graphics.FromImage(_image))
                     {
-                        g.SmoothingMode = SmoothingMode.AntiAlias;
+                        g.SmoothingMode = SmoothingMode.None;
+                        if (SmoothMode && TelePen.Width > 1)
+                        {
+                            g.SmoothingMode = SmoothingMode.AntiAlias;
+                        }
+
 
                         // draw a filled circle at lastImagePoint 
                         g.FillEllipse(

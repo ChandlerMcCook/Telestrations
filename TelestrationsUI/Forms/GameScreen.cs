@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
 using TelestrationsUI.Components;
+using static TelestrationsLibrary.Globals;
+
 
 namespace TelestrationsUI;
 public partial class GameScreen : Form
@@ -62,5 +64,22 @@ public partial class GameScreen : Form
             telestrationsCanvas.SetCanvas(redoImage);
         }
         redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
+    }
+
+    private void drawButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TeleCursor = Cursors.Default;
+        telestrationsCanvas.DrawMode = DrawingMode.Draw;
+    }
+
+    private void fillButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TeleCursor = new Cursor(Properties.Resources.Bucket.Handle);
+        telestrationsCanvas.DrawMode = DrawingMode.Fill;
+    }
+
+    private void smoothButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.SmoothMode = !telestrationsCanvas.SmoothMode;
     }
 }

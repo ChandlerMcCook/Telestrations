@@ -29,12 +29,15 @@ partial class GameScreen
     private void InitializeComponent()
     {
         toolsGroupBox = new GroupBox();
+        fillButton = new Button();
+        drawButton = new Button();
         redoButton = new Button();
         undoButton = new Button();
         colorRadioButton1 = new TelestrationsUI.Components.ColorRadioButton();
         penSizeTrackBar = new TrackBar();
         resetButton = new Button();
         telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
+        smoothButton = new Button();
         toolsGroupBox.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).BeginInit();
         ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).BeginInit();
@@ -43,6 +46,9 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(smoothButton);
+        toolsGroupBox.Controls.Add(fillButton);
+        toolsGroupBox.Controls.Add(drawButton);
         toolsGroupBox.Controls.Add(redoButton);
         toolsGroupBox.Controls.Add(undoButton);
         toolsGroupBox.Controls.Add(colorRadioButton1);
@@ -53,6 +59,26 @@ partial class GameScreen
         toolsGroupBox.Size = new Size(1250, 120);
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
+        // 
+        // fillButton
+        // 
+        fillButton.Location = new Point(504, 83);
+        fillButton.Name = "fillButton";
+        fillButton.Size = new Size(59, 29);
+        fillButton.TabIndex = 6;
+        fillButton.Text = "Fill!";
+        fillButton.UseVisualStyleBackColor = true;
+        fillButton.Click += fillButton_Click;
+        // 
+        // drawButton
+        // 
+        drawButton.Location = new Point(405, 83);
+        drawButton.Name = "drawButton";
+        drawButton.Size = new Size(64, 29);
+        drawButton.TabIndex = 5;
+        drawButton.Text = "Draw!";
+        drawButton.UseVisualStyleBackColor = true;
+        drawButton.Click += drawButton_Click;
         // 
         // redoButton
         // 
@@ -112,11 +138,23 @@ partial class GameScreen
         // 
         telestrationsCanvas.BackColor = SystemColors.Window;
         telestrationsCanvas.CurrentColor = Color.Black;
+        telestrationsCanvas.DrawMode = TelestrationsLibrary.Globals.DrawingMode.Draw;
         telestrationsCanvas.Location = new Point(12, 150);
         telestrationsCanvas.Name = "telestrationsCanvas";
         telestrationsCanvas.Size = new Size(1250, 775);
         telestrationsCanvas.TabIndex = 4;
         telestrationsCanvas.TabStop = false;
+        telestrationsCanvas.TeleCursor = Cursors.Default;
+        // 
+        // smoothButton
+        // 
+        smoothButton.Location = new Point(604, 26);
+        smoothButton.Name = "smoothButton";
+        smoothButton.Size = new Size(52, 26);
+        smoothButton.TabIndex = 7;
+        smoothButton.Text = "smooth";
+        smoothButton.UseVisualStyleBackColor = true;
+        smoothButton.Click += smoothButton_Click;
         // 
         // GameScreen
         // 
@@ -144,4 +182,7 @@ partial class GameScreen
     private Components.ColorRadioButton colorRadioButton1;
     private Button redoButton;
     private Button undoButton;
+    private Button fillButton;
+    private Button drawButton;
+    private Button smoothButton;
 }
