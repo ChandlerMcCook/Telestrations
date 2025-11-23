@@ -13,7 +13,7 @@ internal class FrontendLogic
     {
         HttpResponseMessage response = await ServerCall.MakeGetRequestAsync("/games");
 
-        if (!response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode == false)
         {
             Console.WriteLine($"Error: {response.StatusCode}");
             return null;

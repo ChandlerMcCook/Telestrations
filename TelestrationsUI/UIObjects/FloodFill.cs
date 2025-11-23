@@ -16,6 +16,7 @@ public class FloodFill
         public int dy;
     }
 
+    // taken from the scan line flood fill algorithm on the flood fill wikipedia page
     public static void FloodFillBitmap(Bitmap image, Point start, Color newColor)
     {
         using (BitmapPixelSetter pixelSetter = new BitmapPixelSetter(image, start, newColor))

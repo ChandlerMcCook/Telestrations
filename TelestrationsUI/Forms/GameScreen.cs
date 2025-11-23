@@ -15,17 +15,14 @@ using static TelestrationsLibrary.Globals;
 namespace TelestrationsUI;
 public partial class GameScreen : Form
 {
-    private bool _isDrawing = false;
-    private Point _lastPoint = Point.Empty;
-    private Bitmap _image;
-    private Color _color = Color.Black;
-    private Pen _pen = new Pen(Color.Black, 1);
-
     public GameScreen()
     {
         InitializeComponent();
-
-        _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+    }
+    private void GameScreen_Load(object sender, EventArgs e)
+    {
+        pencilButton.PerformClick();
+        colorRadioButton1.PerformClick();
     }
 
     private void GameScreen_FormClosed(object sender, FormClosedEventArgs e)
@@ -78,13 +75,23 @@ public partial class GameScreen : Form
         telestrationsCanvas.DrawMode = DrawingMode.Fill;
     }
 
-    private void smoothButton_Click(object sender, EventArgs e)
-    {
-        telestrationsCanvas.SmoothMode = !telestrationsCanvas.SmoothMode;
-    }
-
     private void colorRadioButton_Click(object sender, EventArgs e)
     {
         telestrationsCanvas.TelePen.Color = ((ColorRadioButton)sender).CircleColor;
     }
+
+    private void pencilButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TeleCursor = Cursors.Default;
+        telestrationsCanvas.DrawMode = DrawingMode.Draw;
+        telestrationsCanvas.SmoothMode = false;
+    }
+
+    private void brushButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TeleCursor = Cursors.Default;
+        telestrationsCanvas.DrawMode = DrawingMode.Draw;
+        telestrationsCanvas.SmoothMode = true;
+    }
+
 }

@@ -58,6 +58,10 @@ public partial class TelestrationsPictureBox : PictureBox
         this.SetStyle(ControlStyles.UserMouse, true);
         this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        using (Graphics g = Graphics.FromImage(_image))
+        {
+            g.Clear(Color.White);
+        }
         CanvasImageHistory = new ImageHistory(_image);
 
         TelePen.StartCap = LineCap.Round;
@@ -95,6 +99,7 @@ public partial class TelestrationsPictureBox : PictureBox
                     FloodFill.FloodFillBitmap(_image, new Point((int)zoomCoords.X, (int)zoomCoords.Y), TelePen.Color);
                 }
                 break;
+            case MouseButtons.Right:
             case MouseButtons.Middle:
                 if (_zoomFactor >= 1f) // only pan when zoomed in
                 {
@@ -103,10 +108,9 @@ public partial class TelestrationsPictureBox : PictureBox
                     this.Cursor = Cursors.NoMove2D;
                 }
                 break;
-            case MouseButtons.Right:
-                _isDrawing = false;
-                _lastPoint = e.Location;
-                break;
+                //_isDrawing = false;
+                //_lastPoint = e.Location;
+                //break;
         }
 
         return;
@@ -122,6 +126,7 @@ public partial class TelestrationsPictureBox : PictureBox
                 _isDrawing = false;
                 CanvasImageHistory.AddImage(_image);
                 break;
+            case MouseButtons.Right:
             case MouseButtons.Middle:
                 this.Cursor = TeleCursor;
                 break;
@@ -133,6 +138,7 @@ public partial class TelestrationsPictureBox : PictureBox
     protected override void OnMouseLeave(EventArgs e)
     {
         base.OnMouseLeave(e);
+        this.Cursor = TeleCursor;
         _isDrawing = false;
     }
 
@@ -181,6 +187,7 @@ public partial class TelestrationsPictureBox : PictureBox
                     _lastPoint = e.Location;
                 }
                 break;
+            case MouseButtons.Right:
             case MouseButtons.Middle:
                 if (_zoomFactor < 1f) break;
 
@@ -282,7 +289,7 @@ public partial class TelestrationsPictureBox : PictureBox
     {
         RectangleF currentRect = GetScaledRect(rect, currentZoom);
 
-        if (!currentRect.Contains(mousePosition))
+        if (currentRect.Contains(mousePosition) == false)
             return rect;
 
         float scaleRatio = currentZoom / _zoomFactor;
