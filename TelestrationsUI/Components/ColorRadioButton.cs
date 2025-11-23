@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,34 +12,61 @@ using System.Windows.Forms;
 namespace TelestrationsUI.Components;
 public partial class ColorRadioButton : RadioButton
 {
-    private Rectangle _circle = new Rectangle(2, 5, 17, 17);
-    private Pen _outline = new Pen(Color.Black, 1);
-    public Color OnColor { get; set; } = Color.Black;
-    public Color OffColor { get; set; } = Color.White;
+    private int _borderThickness = 5;
+    private Color _selectedBorderColor { get; set; } = Color.DodgerBlue;
+    private Color _borderColor = Color.LightGray;
+    private int _circleSize = 18;
 
-    public ColorRadioButton() 
+    public Color CircleColor { get; set; } = Color.Black;
+
+    public ColorRadioButton()
     {
-        InitializeComponent();
+        this.Size = new Size(28, 28);
+        this.Text = "";
+        this.BackColor = Color.Transparent;
+
+        SetStyle(
+            ControlStyles.UserPaint |
+            ControlStyles.AllPaintingInWmPaint |
+            ControlStyles.OptimizedDoubleBuffer |
+            ControlStyles.ResizeRedraw |
+            ControlStyles.SupportsTransparentBackColor,
+            true
+        );
     }
-    public ColorRadioButton(Color onColor, Color offColor) : this()
+
+    public override Size GetPreferredSize(Size proposedSize)
     {
-        this.OnColor = onColor;
-        this.OffColor = offColor;
+        return new Size(28, 28);
     }
 
     protected override void OnPaint(PaintEventArgs e)
-    { 
-        base.OnPaint(e);
-
+    {
         Graphics g = e.Graphics;
-        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        Color fillColor = this.Checked ? OnColor : OffColor;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
 
-        using (Brush brush = new SolidBrush(fillColor))
+        // clear background
+        if (Parent != null)
+            g.Clear(Parent.BackColor);
+
+        int padding = 5;
+        Rectangle rect = new Rectangle(
+            padding,
+            padding,
+            _circleSize,
+            _circleSize
+        );
+
+        using (SolidBrush b = new SolidBrush(CircleColor))
+            g.FillEllipse(b, rect);
+
+        using (Pen borderPen = new Pen(_borderColor, 1.5f))
+            g.DrawEllipse(borderPen, rect);
+
+        if (this.Checked)
         {
-            g.FillEllipse(brush, _circle);
+            using (Pen selPen = new Pen(_selectedBorderColor, _borderThickness))
+                g.DrawEllipse(selPen, rect);
         }
-
-        g.DrawEllipse(_outline, _circle);
     }
 }

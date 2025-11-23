@@ -18,7 +18,7 @@ public class FloodFill
 
     public static void FloodFillBitmap(Bitmap image, Point start, Color newColor)
     {
-        using (BitmapPixelSetter pixelSetter = new BitmapPixelSetter(image, newColor))
+        using (BitmapPixelSetter pixelSetter = new BitmapPixelSetter(image, start, newColor))
         {
             if (pixelSetter.ShouldFill(start.X, start.Y) == false) return;
 

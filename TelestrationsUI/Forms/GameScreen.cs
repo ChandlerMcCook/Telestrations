@@ -82,4 +82,9 @@ public partial class GameScreen : Form
     {
         telestrationsCanvas.SmoothMode = !telestrationsCanvas.SmoothMode;
     }
+
+    private void colorRadioButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TelePen.Color = ((ColorRadioButton)sender).CircleColor;
+    }
 }
