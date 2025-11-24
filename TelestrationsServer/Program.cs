@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 var GameManager = new GameManager();
+byte[]? _image = null;
+
 
 app.MapGet("/games", () => {
     return GameManager.Games.Select(g => new LobbyListing(g)).ToList();
@@ -49,6 +51,33 @@ app.MapPost("/games/{gameId}/players", (uint gameId, Player player) =>
     }
     game.AddPlayer(player);
     return Results.Ok();
+});
+
+app.MapGet("/image", () =>
+{
+    if (_image == null || _image.Length == 0)
+        return Results.NotFound();
+    return Results.File(_image, "image/png");
+});
+
+//app.MapPost("/image", async (IFormFile file) =>
+//{
+//    using MemoryStream ms = new MemoryStream();
+//    await file.CopyToAsync(ms);
+//    _image = ms.ToArray();
+
+//    return Results.Ok(new { size = _image.Length });
+//}).Accepts<IFormFile>("multipart/form-data");
+
+app.MapPost("/image", async (HttpRequest request) =>
+{
+    using var ms = new MemoryStream();
+    await request.Body.CopyToAsync(ms);
+
+    var imageBytes = ms.ToArray();
+    _image = imageBytes;
+
+    return Results.Ok(new { size = _image.Length });
 });
 
 app.Run();

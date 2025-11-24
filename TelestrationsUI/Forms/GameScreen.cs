@@ -9,12 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
 using TelestrationsUI.Components;
+using TelestrationsUI.Forms;
+using TelestrationsUI.Network;
 using static TelestrationsLibrary.Globals;
 
 
 namespace TelestrationsUI;
 public partial class GameScreen : Form
 {
+    private Color _prevColor = Color.Black;
+
     public GameScreen()
     {
         InitializeComponent();
@@ -73,6 +77,7 @@ public partial class GameScreen : Form
     {
         telestrationsCanvas.TeleCursor = new Cursor(Properties.Resources.Bucket.Handle);
         telestrationsCanvas.DrawMode = DrawingMode.Fill;
+        telestrationsCanvas.TelePen.Color = _prevColor;
     }
 
     private void colorRadioButton_Click(object sender, EventArgs e)
@@ -85,6 +90,7 @@ public partial class GameScreen : Form
         telestrationsCanvas.TeleCursor = Cursors.Default;
         telestrationsCanvas.DrawMode = DrawingMode.Draw;
         telestrationsCanvas.SmoothMode = false;
+        telestrationsCanvas.TelePen.Color = _prevColor;
     }
 
     private void brushButton_Click(object sender, EventArgs e)
@@ -92,6 +98,30 @@ public partial class GameScreen : Form
         telestrationsCanvas.TeleCursor = Cursors.Default;
         telestrationsCanvas.DrawMode = DrawingMode.Draw;
         telestrationsCanvas.SmoothMode = true;
+        telestrationsCanvas.TelePen.Color = _prevColor;
+    }
+    private void eraserButton_Click(object sender, EventArgs e)
+    {
+        telestrationsCanvas.TeleCursor = Cursors.Default;
+        telestrationsCanvas.DrawMode = DrawingMode.Draw;
+        telestrationsCanvas.SmoothMode = false;
+        _prevColor = telestrationsCanvas.TelePen.Color;
+        telestrationsCanvas.TelePen.Color = Color.White;
     }
 
+    private async void submitButton_Click(object sender, EventArgs e)
+    {
+        Bitmap image = telestrationsCanvas.GetCanvas();
+        bool result = await FrontendLogic.SendDrawing(image);
+        if (result)
+            MessageBox.Show("Success");
+        else
+            MessageBox.Show("Fail");
+    }
+
+    private async void button1_Click(object sender, EventArgs e)
+    {
+        GuessScreen gs = new GuessScreen();
+        gs.Show();
+    }
 }

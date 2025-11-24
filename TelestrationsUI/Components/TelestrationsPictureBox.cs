@@ -57,6 +57,7 @@ public partial class TelestrationsPictureBox : PictureBox
 
         this.SetStyle(ControlStyles.UserMouse, true);
         this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
         using (Graphics g = Graphics.FromImage(_image))
         {
@@ -72,6 +73,11 @@ public partial class TelestrationsPictureBox : PictureBox
     public void ClearCanvas()
     {
         _image = new Bitmap(Globals.CANVAS_SIZE_X, Globals.CANVAS_SIZE_Y);
+        using (Graphics g = Graphics.FromImage(_image))
+        {
+            g.Clear(Color.White);
+        }
+        CanvasImageHistory.AddImage(_image);
         this.Invalidate();
     }
 
@@ -79,6 +85,11 @@ public partial class TelestrationsPictureBox : PictureBox
     {
         _image = picture;
         this.Invalidate();
+    }
+
+    public Bitmap GetCanvas()
+    {
+        return _image;
     }
 
     protected override void OnMouseDown(MouseEventArgs e)
@@ -161,7 +172,6 @@ public partial class TelestrationsPictureBox : PictureBox
                         {
                             g.SmoothingMode = SmoothingMode.AntiAlias;
                         }
-
 
                         // draw a filled circle at lastImagePoint 
                         g.FillEllipse(

@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Windows.Forms;
 using TelestrationsLibrary;
+using TelestrationsUI.Network;
 
 namespace TelestrationsUI;
 
@@ -61,7 +62,7 @@ public partial class LandingPage : Form
         };
         gamesDataGrid.Columns.Add(joinButton);
 
-        List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
+        List<LobbyListing>? games = await FrontendLogic.GetGames();
 
         if (games != null)
         {
@@ -70,7 +71,7 @@ public partial class LandingPage : Form
     }
     private async void RefreshGrid()
     {
-        List<LobbyListing>? games = await FrontendLogic.GetGamesAsync();
+        List<LobbyListing>? games = await FrontendLogic.GetGames();
 
         if (games != null)
         {
@@ -84,7 +85,7 @@ public partial class LandingPage : Form
     }
     private async void createGameButton_Click(object sender, EventArgs e)
     {
-        bool result = await FrontendLogic.CreateGameAsync(gameNameTextBox.Text, _user);
+        bool result = await FrontendLogic.CreateGame(gameNameTextBox.Text, _user);
         if (result)
         {
             RefreshGrid();

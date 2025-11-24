@@ -1,5 +1,3 @@
-using TelestrationsUI.Forms;
-
 namespace TelestrationsUI
 {
     internal static class Program
@@ -17,8 +15,6 @@ namespace TelestrationsUI
             //signIn.Show();
             GameScreen gameScreen = new GameScreen();
             gameScreen.Show();
-            //frmZoomPaint test = new frmZoomPaint();
-            //test.Show();
             Application.Run();
         }
     }

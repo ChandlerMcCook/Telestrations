@@ -29,7 +29,9 @@ partial class GameScreen
     private void InitializeComponent()
     {
         toolsGroupBox = new GroupBox();
+        submitButton = new Button();
         toolsPanel = new Panel();
+        eraserButton = new RadioButton();
         pencilButton = new RadioButton();
         fillButton = new RadioButton();
         brushButton = new RadioButton();
@@ -58,6 +60,7 @@ partial class GameScreen
         penSizeTrackBar = new TrackBar();
         resetButton = new Button();
         telestrationsCanvas = new TelestrationsUI.Components.TelestrationsPictureBox();
+        button1 = new Button();
         toolsGroupBox.SuspendLayout();
         toolsPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)penSizeTrackBar).BeginInit();
@@ -67,6 +70,8 @@ partial class GameScreen
         // toolsGroupBox
         // 
         toolsGroupBox.BackColor = SystemColors.ControlLight;
+        toolsGroupBox.Controls.Add(button1);
+        toolsGroupBox.Controls.Add(submitButton);
         toolsGroupBox.Controls.Add(toolsPanel);
         toolsGroupBox.Controls.Add(colorRadioButton20);
         toolsGroupBox.Controls.Add(colorRadioButton19);
@@ -98,16 +103,39 @@ partial class GameScreen
         toolsGroupBox.TabIndex = 3;
         toolsGroupBox.TabStop = false;
         // 
+        // submitButton
+        // 
+        submitButton.Location = new Point(1051, 15);
+        submitButton.Name = "submitButton";
+        submitButton.Size = new Size(175, 88);
+        submitButton.TabIndex = 31;
+        submitButton.Text = "SUBMIT";
+        submitButton.UseVisualStyleBackColor = true;
+        submitButton.Click += submitButton_Click;
+        // 
         // toolsPanel
         // 
         toolsPanel.BackColor = SystemColors.ControlDark;
+        toolsPanel.Controls.Add(eraserButton);
         toolsPanel.Controls.Add(pencilButton);
         toolsPanel.Controls.Add(fillButton);
         toolsPanel.Controls.Add(brushButton);
-        toolsPanel.Location = new Point(358, 19);
+        toolsPanel.Location = new Point(374, 15);
         toolsPanel.Name = "toolsPanel";
         toolsPanel.Size = new Size(212, 89);
         toolsPanel.TabIndex = 30;
+        // 
+        // eraserButton
+        // 
+        eraserButton.AutoSize = true;
+        eraserButton.Location = new Point(12, 51);
+        eraserButton.Name = "eraserButton";
+        eraserButton.Size = new Size(84, 29);
+        eraserButton.TabIndex = 30;
+        eraserButton.TabStop = true;
+        eraserButton.Text = "eraser";
+        eraserButton.UseVisualStyleBackColor = true;
+        eraserButton.Click += eraserButton_Click;
         // 
         // pencilButton
         // 
@@ -124,7 +152,7 @@ partial class GameScreen
         // fillButton
         // 
         fillButton.AutoSize = true;
-        fillButton.Location = new Point(12, 46);
+        fillButton.Location = new Point(112, 51);
         fillButton.Name = "fillButton";
         fillButton.Size = new Size(90, 29);
         fillButton.TabIndex = 29;
@@ -153,7 +181,7 @@ partial class GameScreen
         colorRadioButton20.CircleColor = Color.Thistle;
         colorRadioButton20.FlatAppearance.BorderSize = 0;
         colorRadioButton20.FlatStyle = FlatStyle.Flat;
-        colorRadioButton20.Location = new Point(923, 45);
+        colorRadioButton20.Location = new Point(956, 66);
         colorRadioButton20.Name = "colorRadioButton20";
         colorRadioButton20.Size = new Size(28, 28);
         colorRadioButton20.TabIndex = 27;
@@ -170,7 +198,7 @@ partial class GameScreen
         colorRadioButton19.CircleColor = Color.MediumOrchid;
         colorRadioButton19.FlatAppearance.BorderSize = 0;
         colorRadioButton19.FlatStyle = FlatStyle.Flat;
-        colorRadioButton19.Location = new Point(923, 9);
+        colorRadioButton19.Location = new Point(956, 30);
         colorRadioButton19.Name = "colorRadioButton19";
         colorRadioButton19.Size = new Size(28, 28);
         colorRadioButton19.TabIndex = 26;
@@ -187,7 +215,7 @@ partial class GameScreen
         colorRadioButton18.CircleColor = Color.LightSteelBlue;
         colorRadioButton18.FlatAppearance.BorderSize = 0;
         colorRadioButton18.FlatStyle = FlatStyle.Flat;
-        colorRadioButton18.Location = new Point(889, 45);
+        colorRadioButton18.Location = new Point(922, 66);
         colorRadioButton18.Name = "colorRadioButton18";
         colorRadioButton18.Size = new Size(28, 28);
         colorRadioButton18.TabIndex = 25;
@@ -204,7 +232,7 @@ partial class GameScreen
         colorRadioButton17.CircleColor = Color.RoyalBlue;
         colorRadioButton17.FlatAppearance.BorderSize = 0;
         colorRadioButton17.FlatStyle = FlatStyle.Flat;
-        colorRadioButton17.Location = new Point(889, 9);
+        colorRadioButton17.Location = new Point(922, 30);
         colorRadioButton17.Name = "colorRadioButton17";
         colorRadioButton17.Size = new Size(28, 28);
         colorRadioButton17.TabIndex = 24;
@@ -221,7 +249,7 @@ partial class GameScreen
         colorRadioButton16.CircleColor = Color.LightCyan;
         colorRadioButton16.FlatAppearance.BorderSize = 0;
         colorRadioButton16.FlatStyle = FlatStyle.Flat;
-        colorRadioButton16.Location = new Point(855, 45);
+        colorRadioButton16.Location = new Point(888, 66);
         colorRadioButton16.Name = "colorRadioButton16";
         colorRadioButton16.Size = new Size(28, 28);
         colorRadioButton16.TabIndex = 23;
@@ -238,7 +266,7 @@ partial class GameScreen
         colorRadioButton15.CircleColor = Color.DeepSkyBlue;
         colorRadioButton15.FlatAppearance.BorderSize = 0;
         colorRadioButton15.FlatStyle = FlatStyle.Flat;
-        colorRadioButton15.Location = new Point(855, 9);
+        colorRadioButton15.Location = new Point(888, 30);
         colorRadioButton15.Name = "colorRadioButton15";
         colorRadioButton15.Size = new Size(28, 28);
         colorRadioButton15.TabIndex = 22;
@@ -255,7 +283,7 @@ partial class GameScreen
         colorRadioButton14.CircleColor = Color.PaleGreen;
         colorRadioButton14.FlatAppearance.BorderSize = 0;
         colorRadioButton14.FlatStyle = FlatStyle.Flat;
-        colorRadioButton14.Location = new Point(821, 45);
+        colorRadioButton14.Location = new Point(854, 66);
         colorRadioButton14.Name = "colorRadioButton14";
         colorRadioButton14.Size = new Size(28, 28);
         colorRadioButton14.TabIndex = 21;
@@ -272,7 +300,7 @@ partial class GameScreen
         colorRadioButton13.CircleColor = Color.Wheat;
         colorRadioButton13.FlatAppearance.BorderSize = 0;
         colorRadioButton13.FlatStyle = FlatStyle.Flat;
-        colorRadioButton13.Location = new Point(787, 45);
+        colorRadioButton13.Location = new Point(820, 66);
         colorRadioButton13.Name = "colorRadioButton13";
         colorRadioButton13.Size = new Size(28, 28);
         colorRadioButton13.TabIndex = 20;
@@ -289,7 +317,7 @@ partial class GameScreen
         colorRadioButton12.CircleColor = Color.Gold;
         colorRadioButton12.FlatAppearance.BorderSize = 0;
         colorRadioButton12.FlatStyle = FlatStyle.Flat;
-        colorRadioButton12.Location = new Point(753, 45);
+        colorRadioButton12.Location = new Point(786, 66);
         colorRadioButton12.Name = "colorRadioButton12";
         colorRadioButton12.Size = new Size(28, 28);
         colorRadioButton12.TabIndex = 19;
@@ -306,7 +334,7 @@ partial class GameScreen
         colorRadioButton11.CircleColor = Color.HotPink;
         colorRadioButton11.FlatAppearance.BorderSize = 0;
         colorRadioButton11.FlatStyle = FlatStyle.Flat;
-        colorRadioButton11.Location = new Point(719, 45);
+        colorRadioButton11.Location = new Point(752, 66);
         colorRadioButton11.Name = "colorRadioButton11";
         colorRadioButton11.Size = new Size(28, 28);
         colorRadioButton11.TabIndex = 18;
@@ -323,7 +351,7 @@ partial class GameScreen
         colorRadioButton10.CircleColor = Color.SaddleBrown;
         colorRadioButton10.FlatAppearance.BorderSize = 0;
         colorRadioButton10.FlatStyle = FlatStyle.Flat;
-        colorRadioButton10.Location = new Point(685, 45);
+        colorRadioButton10.Location = new Point(718, 66);
         colorRadioButton10.Name = "colorRadioButton10";
         colorRadioButton10.Size = new Size(28, 28);
         colorRadioButton10.TabIndex = 17;
@@ -340,7 +368,7 @@ partial class GameScreen
         colorRadioButton9.CircleColor = Color.LightGray;
         colorRadioButton9.FlatAppearance.BorderSize = 0;
         colorRadioButton9.FlatStyle = FlatStyle.Flat;
-        colorRadioButton9.Location = new Point(651, 45);
+        colorRadioButton9.Location = new Point(684, 66);
         colorRadioButton9.Name = "colorRadioButton9";
         colorRadioButton9.Size = new Size(28, 28);
         colorRadioButton9.TabIndex = 16;
@@ -357,7 +385,7 @@ partial class GameScreen
         colorRadioButton8.CircleColor = Color.LimeGreen;
         colorRadioButton8.FlatAppearance.BorderSize = 0;
         colorRadioButton8.FlatStyle = FlatStyle.Flat;
-        colorRadioButton8.Location = new Point(821, 9);
+        colorRadioButton8.Location = new Point(854, 30);
         colorRadioButton8.Name = "colorRadioButton8";
         colorRadioButton8.Size = new Size(28, 28);
         colorRadioButton8.TabIndex = 15;
@@ -374,7 +402,7 @@ partial class GameScreen
         colorRadioButton7.CircleColor = Color.Yellow;
         colorRadioButton7.FlatAppearance.BorderSize = 0;
         colorRadioButton7.FlatStyle = FlatStyle.Flat;
-        colorRadioButton7.Location = new Point(787, 9);
+        colorRadioButton7.Location = new Point(820, 30);
         colorRadioButton7.Name = "colorRadioButton7";
         colorRadioButton7.Size = new Size(28, 28);
         colorRadioButton7.TabIndex = 14;
@@ -391,7 +419,7 @@ partial class GameScreen
         colorRadioButton6.CircleColor = Color.White;
         colorRadioButton6.FlatAppearance.BorderSize = 0;
         colorRadioButton6.FlatStyle = FlatStyle.Flat;
-        colorRadioButton6.Location = new Point(617, 45);
+        colorRadioButton6.Location = new Point(650, 66);
         colorRadioButton6.Name = "colorRadioButton6";
         colorRadioButton6.Size = new Size(28, 28);
         colorRadioButton6.TabIndex = 13;
@@ -408,7 +436,7 @@ partial class GameScreen
         colorRadioButton5.CircleColor = Color.Orange;
         colorRadioButton5.FlatAppearance.BorderSize = 0;
         colorRadioButton5.FlatStyle = FlatStyle.Flat;
-        colorRadioButton5.Location = new Point(753, 9);
+        colorRadioButton5.Location = new Point(786, 30);
         colorRadioButton5.Name = "colorRadioButton5";
         colorRadioButton5.Size = new Size(28, 28);
         colorRadioButton5.TabIndex = 12;
@@ -425,7 +453,7 @@ partial class GameScreen
         colorRadioButton4.CircleColor = Color.Red;
         colorRadioButton4.FlatAppearance.BorderSize = 0;
         colorRadioButton4.FlatStyle = FlatStyle.Flat;
-        colorRadioButton4.Location = new Point(719, 9);
+        colorRadioButton4.Location = new Point(752, 30);
         colorRadioButton4.Name = "colorRadioButton4";
         colorRadioButton4.Size = new Size(28, 28);
         colorRadioButton4.TabIndex = 11;
@@ -442,7 +470,7 @@ partial class GameScreen
         colorRadioButton3.CircleColor = Color.Brown;
         colorRadioButton3.FlatAppearance.BorderSize = 0;
         colorRadioButton3.FlatStyle = FlatStyle.Flat;
-        colorRadioButton3.Location = new Point(685, 9);
+        colorRadioButton3.Location = new Point(718, 30);
         colorRadioButton3.Name = "colorRadioButton3";
         colorRadioButton3.Size = new Size(28, 28);
         colorRadioButton3.TabIndex = 10;
@@ -459,7 +487,7 @@ partial class GameScreen
         colorRadioButton2.CircleColor = Color.DarkGray;
         colorRadioButton2.FlatAppearance.BorderSize = 0;
         colorRadioButton2.FlatStyle = FlatStyle.Flat;
-        colorRadioButton2.Location = new Point(651, 9);
+        colorRadioButton2.Location = new Point(684, 30);
         colorRadioButton2.Name = "colorRadioButton2";
         colorRadioButton2.Size = new Size(28, 28);
         colorRadioButton2.TabIndex = 9;
@@ -476,7 +504,7 @@ partial class GameScreen
         colorRadioButton1.CircleColor = Color.Black;
         colorRadioButton1.FlatAppearance.BorderSize = 0;
         colorRadioButton1.FlatStyle = FlatStyle.Flat;
-        colorRadioButton1.Location = new Point(617, 9);
+        colorRadioButton1.Location = new Point(650, 30);
         colorRadioButton1.Name = "colorRadioButton1";
         colorRadioButton1.Size = new Size(28, 28);
         colorRadioButton1.TabIndex = 8;
@@ -507,18 +535,21 @@ partial class GameScreen
         // 
         // penSizeTrackBar
         // 
-        penSizeTrackBar.Location = new Point(6, 43);
-        penSizeTrackBar.Maximum = 30;
+        penSizeTrackBar.LargeChange = 10;
+        penSizeTrackBar.Location = new Point(0, 51);
+        penSizeTrackBar.Maximum = 201;
         penSizeTrackBar.Minimum = 1;
         penSizeTrackBar.Name = "penSizeTrackBar";
         penSizeTrackBar.Size = new Size(321, 69);
+        penSizeTrackBar.SmallChange = 10;
         penSizeTrackBar.TabIndex = 1;
+        penSizeTrackBar.TickFrequency = 10;
         penSizeTrackBar.Value = 1;
         penSizeTrackBar.Scroll += penSizeTrackBar_Scroll;
         // 
         // resetButton
         // 
-        resetButton.Location = new Point(1156, 43);
+        resetButton.Location = new Point(199, 0);
         resetButton.Name = "resetButton";
         resetButton.Size = new Size(78, 40);
         resetButton.TabIndex = 0;
@@ -538,6 +569,16 @@ partial class GameScreen
         telestrationsCanvas.TabIndex = 4;
         telestrationsCanvas.TabStop = false;
         telestrationsCanvas.TeleCursor = Cursors.Default;
+        // 
+        // button1
+        // 
+        button1.Location = new Point(1006, 38);
+        button1.Name = "button1";
+        button1.Size = new Size(28, 56);
+        button1.TabIndex = 32;
+        button1.Text = "button1";
+        button1.UseVisualStyleBackColor = true;
+        button1.Click += button1_Click;
         // 
         // GameScreen
         // 
@@ -591,4 +632,7 @@ partial class GameScreen
     private RadioButton pencilButton;
     private RadioButton brushButton;
     private Panel toolsPanel;
+    private Button submitButton;
+    private RadioButton eraserButton;
+    private Button button1;
 }
