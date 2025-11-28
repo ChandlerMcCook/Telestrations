@@ -19,7 +19,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 var GameManager = new GameManager();
-byte[]? _image = null;
+//byte[]? _image = null;
+byte[]? _image = File.ReadAllBytes(@"C:\Users\Chandler\Downloads\example-image.png");
 
 
 app.MapGet("/games", () => {

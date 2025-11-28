@@ -83,6 +83,7 @@ public partial class GameScreen : Form
     private void colorRadioButton_Click(object sender, EventArgs e)
     {
         telestrationsCanvas.TelePen.Color = ((ColorRadioButton)sender).CircleColor;
+        _prevColor = telestrationsCanvas.TelePen.Color;
     }
 
     private void pencilButton_Click(object sender, EventArgs e)
@@ -123,5 +124,30 @@ public partial class GameScreen : Form
     {
         GuessScreen gs = new GuessScreen();
         gs.Show();
+    }
+
+    private void GameScreen_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode == Keys.Z  && e.Control)
+        {
+            if (e.Shift)
+            {
+                if (telestrationsCanvas.CanvasImageHistory.CanRedo())
+                {
+                    Bitmap redoImage = telestrationsCanvas.CanvasImageHistory.Redo();
+                    telestrationsCanvas.SetCanvas(redoImage);
+                }
+                redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
+            }
+            else
+            {
+                if (telestrationsCanvas.CanvasImageHistory.CanUndo())
+                {
+                    Bitmap undoImage = telestrationsCanvas.CanvasImageHistory.Undo();
+                    telestrationsCanvas.SetCanvas(undoImage);
+                }
+                redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
+            }
+        }
     }
 }

@@ -31,12 +31,19 @@ partial class GuessScreen
         guessPictureBox = new PictureBox();
         label1 = new Label();
         guessTextBox = new RichTextBox();
+        tableLayoutPanel1 = new TableLayoutPanel();
+        panel1 = new Panel();
         ((System.ComponentModel.ISupportInitialize)guessPictureBox).BeginInit();
+        tableLayoutPanel1.SuspendLayout();
+        panel1.SuspendLayout();
         SuspendLayout();
         // 
         // guessPictureBox
         // 
-        guessPictureBox.Location = new Point(12, 12);
+        guessPictureBox.Anchor = AnchorStyles.None;
+        guessPictureBox.Location = new Point(14, 4);
+        guessPictureBox.MaximumSize = new Size(1250, 775);
+        guessPictureBox.MinimumSize = new Size(1250, 775);
         guessPictureBox.Name = "guessPictureBox";
         guessPictureBox.Size = new Size(1250, 775);
         guessPictureBox.TabIndex = 0;
@@ -45,7 +52,7 @@ partial class GuessScreen
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(558, 812);
+        label1.Location = new Point(303, 11);
         label1.Name = "label1";
         label1.Size = new Size(126, 25);
         label1.TabIndex = 1;
@@ -53,26 +60,52 @@ partial class GuessScreen
         // 
         // guessTextBox
         // 
-        guessTextBox.Location = new Point(295, 846);
+        guessTextBox.Location = new Point(40, 45);
         guessTextBox.Name = "guessTextBox";
         guessTextBox.Size = new Size(659, 86);
         guessTextBox.TabIndex = 2;
         guessTextBox.Text = "";
+        // 
+        // tableLayoutPanel1
+        // 
+        tableLayoutPanel1.ColumnCount = 1;
+        tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        tableLayoutPanel1.Controls.Add(panel1, 0, 1);
+        tableLayoutPanel1.Controls.Add(guessPictureBox, 0, 0);
+        tableLayoutPanel1.Dock = DockStyle.Fill;
+        tableLayoutPanel1.Location = new Point(0, 0);
+        tableLayoutPanel1.Name = "tableLayoutPanel1";
+        tableLayoutPanel1.RowCount = 2;
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 160F));
+        tableLayoutPanel1.Size = new Size(1278, 944);
+        tableLayoutPanel1.TabIndex = 3;
+        // 
+        // panel1
+        // 
+        panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+        panel1.Controls.Add(guessTextBox);
+        panel1.Controls.Add(label1);
+        panel1.Location = new Point(267, 787);
+        panel1.Name = "panel1";
+        panel1.Size = new Size(743, 154);
+        panel1.TabIndex = 4;
         // 
         // GuessScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1278, 944);
-        Controls.Add(guessTextBox);
-        Controls.Add(label1);
-        Controls.Add(guessPictureBox);
+        Controls.Add(tableLayoutPanel1);
+        MinimumSize = new Size(1300, 1000);
         Name = "GuessScreen";
         Text = "Guess";
         Load += GuessScreen_Load;
         ((System.ComponentModel.ISupportInitialize)guessPictureBox).EndInit();
+        tableLayoutPanel1.ResumeLayout(false);
+        panel1.ResumeLayout(false);
+        panel1.PerformLayout();
         ResumeLayout(false);
-        PerformLayout();
     }
 
     #endregion
@@ -80,4 +113,6 @@ partial class GuessScreen
     private PictureBox guessPictureBox;
     private Label label1;
     private RichTextBox guessTextBox;
+    private TableLayoutPanel tableLayoutPanel1;
+    private Panel panel1;
 }

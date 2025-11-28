@@ -111,12 +111,12 @@ public partial class TelestrationsPictureBox : PictureBox
                 }
                 break;
             case MouseButtons.Right:
-            case MouseButtons.Middle:
+            //case MouseButtons.Middle:
                 if (_zoomFactor >= 1f) // only pan when zoomed in
                 {
                     _panMouseLocation = e.Location;
                     _imageLocation = _imageRect.Location;
-                    this.Cursor = Cursors.NoMove2D;
+                    TeleCursor = Cursors.NoMove2D;
                 }
                 break;
                 //_isDrawing = false;
@@ -138,8 +138,17 @@ public partial class TelestrationsPictureBox : PictureBox
                 CanvasImageHistory.AddImage(_image);
                 break;
             case MouseButtons.Right:
-            case MouseButtons.Middle:
-                this.Cursor = TeleCursor;
+            //case MouseButtons.Middle:
+                switch (DrawMode)
+                {
+                    case DrawingMode.Draw:
+                    case DrawingMode.Erase:
+                        TeleCursor = Cursors.Default;
+                        break;
+                    case DrawingMode.Fill:
+                        TeleCursor = new Cursor(Properties.Resources.Bucket.Handle);
+                        break;
+                }
                 break;
         }
 
@@ -198,7 +207,7 @@ public partial class TelestrationsPictureBox : PictureBox
                 }
                 break;
             case MouseButtons.Right:
-            case MouseButtons.Middle:
+            //case MouseButtons.Middle:
                 if (_zoomFactor < 1f) break;
 
                 float newX = _imageLocation.X + (e.Location.X - _panMouseLocation.X);
@@ -251,6 +260,19 @@ public partial class TelestrationsPictureBox : PictureBox
         }
 
         _imageRect = OffsetScaledRectangleOnMousePosition(_imageRect, oldZoom, e.Location);
+
+        this.Invalidate();
+    }
+
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+
+        float drawW = _imageRect.Width * _zoomFactor;
+        float drawH = _imageRect.Height * _zoomFactor;
+
+        _imageRect.X = (this.Width - drawW) / 2f;
+        _imageRect.Y = (this.Height - drawH) / 2f;
 
         this.Invalidate();
     }

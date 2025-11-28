@@ -1,3 +1,6 @@
+using TelestrationsUI.Forms;
+using TelestrationsLibrary;
+
 namespace TelestrationsUI
 {
     internal static class Program
@@ -13,8 +16,13 @@ namespace TelestrationsUI
             ApplicationConfiguration.Initialize();
             //SignIn signIn = new SignIn();
             //signIn.Show();
-            GameScreen gameScreen = new GameScreen();
-            gameScreen.Show();
+            //GameScreen gameScreen = new GameScreen();
+            //gameScreen.Show();
+
+            Player user = new Player("guy");
+            LandingPage page = new LandingPage(user);
+            page.Show();
+
             Application.Run();
         }
     }

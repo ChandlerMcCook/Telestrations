@@ -35,6 +35,7 @@
             joinGameGroupBox = new GroupBox();
             refreshButton = new Button();
             gamesDataGrid = new DataGridView();
+            button1 = new Button();
             hostGameGroupBox.SuspendLayout();
             joinGameGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gamesDataGrid).BeginInit();
@@ -112,11 +113,22 @@
             gamesDataGrid.TabIndex = 0;
             gamesDataGrid.CellContentClick += gamesDataGrid_CellContentClick;
             // 
+            // button1
+            // 
+            button1.Location = new Point(459, 243);
+            button1.Name = "button1";
+            button1.Size = new Size(169, 37);
+            button1.TabIndex = 2;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // LandingPage
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1278, 944);
+            Controls.Add(button1);
             Controls.Add(joinGameGroupBox);
             Controls.Add(hostGameGroupBox);
             Name = "LandingPage";
@@ -138,5 +150,6 @@
         private TextBox gameNameTextBox;
         private Button createGameButton;
         private Button refreshButton;
+        private Button button1;
     }
 }

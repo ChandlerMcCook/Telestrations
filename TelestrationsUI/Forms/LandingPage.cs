@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using System.Windows.Forms;
 using TelestrationsLibrary;
+using TelestrationsUI.Forms;
 using TelestrationsUI.Network;
 
 namespace TelestrationsUI;
@@ -126,5 +127,11 @@ public partial class LandingPage : Form
         {
             Application.Exit();
         }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        GuessScreen gs = new GuessScreen();
+        gs.Show();
     }
 }
