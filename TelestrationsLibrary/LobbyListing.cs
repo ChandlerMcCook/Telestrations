@@ -15,7 +15,7 @@ public class LobbyListing
     public LobbyListing() { }
     public LobbyListing(Game game)
     {
-        Id = game.Id;
+        Id = game.ID;
         GameName = game.Name;
         HostName = game.Host.Name;
         PlayerCount = $"{game.Players.Count} / {Globals.MAX_PLAYERS_PER_GAME}";

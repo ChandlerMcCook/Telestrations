@@ -128,7 +128,7 @@ public partial class GameScreen : Form
 
     private void GameScreen_KeyDown(object sender, KeyEventArgs e)
     {
-        if (e.KeyCode == Keys.Z  && e.Control)
+        if (e.KeyCode == Keys.Z && e.Control)
         {
             if (e.Shift)
             {
@@ -149,5 +149,10 @@ public partial class GameScreen : Form
                 redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
             }
         }
+    }
+
+    private void guessTextBox_TextChanged(object sender, EventArgs e)
+    {
+
     }
 }

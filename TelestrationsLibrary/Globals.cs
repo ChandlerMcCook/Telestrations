@@ -4,6 +4,7 @@ public static class Globals
     // SERVER
     public static readonly string SERVER_BASE_URL = "https://localhost:7228";
     public static readonly int MAX_PLAYERS_PER_GAME = 8;
+    
 
     // UI
     public static readonly int CANVAS_SIZE_X = 1250;

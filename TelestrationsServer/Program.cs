@@ -18,24 +18,24 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var GameManager = new GameManager();
+ServerGameList gameList = new ServerGameList();
 //byte[]? _image = null;
 byte[]? _image = File.ReadAllBytes(@"Resources/example-image.png");
 
 
 app.MapGet("/games", () => {
-    return GameManager.Games.Select(g => new LobbyListing(g)).ToList();
+    return gameList.Games.Select(g => new LobbyListing(g)).ToList();
 });
 
 app.MapPost("/games", (string gameName, Player host) =>
 {
-    GameManager.CreateGame(gameName, host);
+    gameList.CreateGame(gameName, host);
     return Results.Ok();
 });
 
 app.MapGet("/games/{gameId}", (uint gameId) =>
 {
-    Game? game = GameManager.GetGame(gameId);
+    Game? game = gameList.GetGame(gameId);
     if (game == null)
     {
         return Results.NotFound();
@@ -45,7 +45,7 @@ app.MapGet("/games/{gameId}", (uint gameId) =>
 
 app.MapPost("/games/{gameId}/players", (uint gameId, Player player) =>
 {
-    Game? game = GameManager.GetGame(gameId);
+    Game? game = gameList.GetGame(gameId);
     if (game == null)
     {
         return Results.NotFound();
@@ -53,6 +53,40 @@ app.MapPost("/games/{gameId}/players", (uint gameId, Player player) =>
     game.AddPlayer(player);
     return Results.Ok();
 });
+
+app.MapPut("/games/{gameId}/start", (uint gameId) =>
+{
+    Game? game = gameList.GetGame(gameId);
+    if (game == null)
+    {
+        return Results.NotFound();
+    }
+    game.Start();
+    return Results.Ok();
+});
+
+app.MapGet("games/{gameId}/players/{playerId}/action", (uint gameId, uint playerId) =>
+{
+    Game? game = gameList.GetGame(gameId);
+    if (game == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(game.State.GetNextAction(playerId));
+});
+
+app.MapPut(
+    "games/{gameId}/players/{playerId}/action",
+    (uint gameId, uint playerId, ClientAction action) =>
+    {
+        Game? game = gameList.GetGame(gameId);
+        if (game == null)
+        {
+            return Results.NotFound();
+        }
+        return Results.Ok(game.State.SaveAction(playerId, action));
+    }
+);
 
 app.MapGet("/image", () =>
 {

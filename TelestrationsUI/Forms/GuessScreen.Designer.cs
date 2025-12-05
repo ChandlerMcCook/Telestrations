@@ -61,6 +61,7 @@ partial class GuessScreen
         // guessTextBox
         // 
         guessTextBox.Location = new Point(40, 45);
+        guessTextBox.MaxLength = 100;
         guessTextBox.Name = "guessTextBox";
         guessTextBox.Size = new Size(659, 86);
         guessTextBox.TabIndex = 2;
@@ -95,8 +96,11 @@ partial class GuessScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
+        AutoSize = true;
         ClientSize = new Size(1278, 944);
         Controls.Add(tableLayoutPanel1);
+        MaximizeBox = false;
+        MaximumSize = new Size(1300, 1000);
         MinimumSize = new Size(1300, 1000);
         Name = "GuessScreen";
         Text = "Guess";
