@@ -29,8 +29,8 @@ app.MapGet("/games", () => {
 
 app.MapPost("/games", (string gameName, Player host) =>
 {
-    gameList.CreateGame(gameName, host);
-    return Results.Ok();
+    uint gameId = gameList.CreateGame(gameName, host);
+    return Results.Ok(gameId);
 });
 
 app.MapGet("/games/{gameId}", (uint gameId) =>
@@ -41,6 +41,16 @@ app.MapGet("/games/{gameId}", (uint gameId) =>
         return Results.NotFound();
     }
     return Results.Ok(game);
+});
+
+app.MapGet("/games/{gameId}/players", (uint gameId) =>
+{
+    Game? game = gameList.GetGame(gameId);
+    if (game == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(game.Players);
 });
 
 app.MapPost("/games/{gameId}/players", (uint gameId, Player player) =>
@@ -75,7 +85,7 @@ app.MapGet("games/{gameId}/players/{playerId}/action", (uint gameId, uint player
     return Results.Ok(game.State.GetNextAction(playerId));
 });
 
-app.MapPut(
+app.MapPost(
     "games/{gameId}/players/{playerId}/action",
     (uint gameId, uint playerId, ClientAction action) =>
     {

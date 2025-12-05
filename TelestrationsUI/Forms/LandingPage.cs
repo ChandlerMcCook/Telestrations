@@ -82,19 +82,19 @@ public partial class LandingPage : Form
     private void JoinGame(uint gameId)
     {
         MessageBox.Show($"Joining game with ID: {gameId}");
-        GameScreen gameScreen = new GameScreen();
+        //GameScreen gameScreen = new GameScreen();
     }
     private async void createGameButton_Click(object sender, EventArgs e)
     {
-        bool result = await FrontendLogic.CreateGame(gameNameTextBox.Text, _user);
-        if (result)
-        {
-            RefreshGrid();
-        }
-        else
-        {
-            MessageBox.Show("Error creating game. Please try again.");
-        }
+        uint result = await FrontendLogic.CreateGame(gameNameTextBox.Text, _user);
+        //if (result)
+        //{
+        //    RefreshGrid();
+        //}
+        //else
+        //{
+        //    MessageBox.Show("Error creating game. Please try again.");
+        //}
     }
     private void refreshButton_Click(object sender, EventArgs e)
     {
@@ -129,9 +129,18 @@ public partial class LandingPage : Form
         }
     }
 
-    private void button1_Click(object sender, EventArgs e)
+    private async void button1_Click(object sender, EventArgs e)
     {
-        GuessScreen gs = new GuessScreen();
-        gs.Show();
+        uint gameId = await FrontendLogic.CreateGame("Bruh City", _user);
+        bool result = await FrontendLogic.StartGame(gameId);
+        if (result)
+        {
+            MasterForm form = new MasterForm(gameId, _user);
+            form.Show();
+        }
+        else
+        {
+            MessageBox.Show("NOOOO");
+        }
     }
 }

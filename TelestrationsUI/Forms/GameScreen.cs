@@ -18,10 +18,19 @@ namespace TelestrationsUI;
 public partial class GameScreen : Form
 {
     private Color _prevColor = Color.Black;
+    private uint gameId;
+    private uint playerId;
 
-    public GameScreen()
+    public GameScreen(uint gid, uint pid, ServerAction action)
     {
         InitializeComponent();
+        gameId = gid;
+        playerId = pid;
+        if (action.Action == ActionType.Draw)
+        {
+            guessTextBox.Text = action.Guess;
+            guessTextBox.ReadOnly = true;
+        }
     }
     private void GameScreen_Load(object sender, EventArgs e)
     {
@@ -110,6 +119,15 @@ public partial class GameScreen : Form
         telestrationsCanvas.TelePen.Color = Color.White;
     }
 
+    //private async void submitButton_Click(object sender, EventArgs e)
+    //{
+    //    Bitmap image = telestrationsCanvas.GetCanvas();
+    //    bool result = await FrontendLogic.SendDrawing(image);
+    //    if (result)
+    //        MessageBox.Show("Success");
+    //    else
+    //        MessageBox.Show("Fail");
+    //}
     private async void submitButton_Click(object sender, EventArgs e)
     {
         Bitmap image = telestrationsCanvas.GetCanvas();
@@ -118,12 +136,6 @@ public partial class GameScreen : Form
             MessageBox.Show("Success");
         else
             MessageBox.Show("Fail");
-    }
-
-    private async void button1_Click(object sender, EventArgs e)
-    {
-        GuessScreen gs = new GuessScreen();
-        gs.Show();
     }
 
     private void GameScreen_KeyDown(object sender, KeyEventArgs e)

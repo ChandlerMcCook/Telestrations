@@ -21,6 +21,11 @@ internal class ServerCall
         return await _client.GetAsync(endpoint);
     }
 
+    public static async Task<HttpResponseMessage> Put(string endpoint)
+    {
+        return await _client.PutAsync(endpoint, null);
+    }
+
     public static async Task<HttpResponseMessage> PostJson<T>(string endpoint,  T payload)
     {
         return await _client.PostAsJsonAsync(endpoint, payload);

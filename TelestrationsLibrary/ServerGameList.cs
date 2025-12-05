@@ -10,10 +10,11 @@ public class ServerGameList
 {
     public List<Game> Games { get; } = [];
 
-    public void CreateGame(string gameName, Player host)
+    public uint CreateGame(string gameName, Player host)
     {
         var game = new Game(gameName, host);
         Games.Add(game);
+        return game.ID;
     }
 
     public Game? GetGame(uint gameId)

@@ -17,6 +17,7 @@ public class GameState
     public GameState(List<Player> players)
     {
         Players = players;
+        _isEven = Players.Count % 2 == 0;
         foreach (var p in Players)
         {
             _prompts.Add((
@@ -51,7 +52,6 @@ public class GameState
         ServerAction action;
         if (_round == 0)
         {
-            _isEven = Players.Count % 2 == 0;
             action = (_isEven) 
                 ? new ServerAction(ActionType.CreateAndDraw) 
                 : new ServerAction(ActionType.Create)

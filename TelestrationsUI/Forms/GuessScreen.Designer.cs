@@ -33,6 +33,7 @@ partial class GuessScreen
         guessTextBox = new RichTextBox();
         tableLayoutPanel1 = new TableLayoutPanel();
         panel1 = new Panel();
+        button1 = new Button();
         ((System.ComponentModel.ISupportInitialize)guessPictureBox).BeginInit();
         tableLayoutPanel1.SuspendLayout();
         panel1.SuspendLayout();
@@ -85,12 +86,23 @@ partial class GuessScreen
         // panel1
         // 
         panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+        panel1.Controls.Add(button1);
         panel1.Controls.Add(guessTextBox);
         panel1.Controls.Add(label1);
         panel1.Location = new Point(267, 787);
         panel1.Name = "panel1";
         panel1.Size = new Size(743, 154);
         panel1.TabIndex = 4;
+        // 
+        // button1
+        // 
+        button1.Location = new Point(686, 11);
+        button1.Name = "button1";
+        button1.Size = new Size(42, 22);
+        button1.TabIndex = 3;
+        button1.Text = "button1";
+        button1.UseVisualStyleBackColor = true;
+        button1.Click += button1_Click;
         // 
         // GuessScreen
         // 
@@ -104,7 +116,6 @@ partial class GuessScreen
         MinimumSize = new Size(1300, 1000);
         Name = "GuessScreen";
         Text = "Guess";
-        Load += GuessScreen_Load;
         ((System.ComponentModel.ISupportInitialize)guessPictureBox).EndInit();
         tableLayoutPanel1.ResumeLayout(false);
         panel1.ResumeLayout(false);
@@ -119,4 +130,5 @@ partial class GuessScreen
     private RichTextBox guessTextBox;
     private TableLayoutPanel tableLayoutPanel1;
     private Panel panel1;
+    private Button button1;
 }
