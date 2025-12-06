@@ -93,8 +93,13 @@ internal class FrontendLogic
             return null;
         }
 
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         string actionJson = await response.Content.ReadAsStringAsync();
-        ServerAction? action = JsonSerializer.Deserialize<ServerAction>(actionJson);
+        ServerAction? action = JsonSerializer.Deserialize<ServerAction>(actionJson, options);
 
         return action;
     }

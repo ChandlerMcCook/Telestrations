@@ -35,19 +35,19 @@ public partial class MasterForm : Form
             {
                 case ActionType.Create:
                     CreateScreen cs = new CreateScreen(_gameId, _player.ID);
-                    cs.Show();
+                    cs.ShowDialog();
                     break;
                 case ActionType.Draw:
                 case ActionType.CreateAndDraw:
                     GameScreen gs = new GameScreen(_gameId, _player.ID, response);
-                    gs.Show();
+                    gs.ShowDialog();
                     break;
                 case ActionType.Guess:
                     if (response.Drawing is not null)
                     {
                         Bitmap image = FrontendLogic.ConvertByteArrToBitmap(response.Drawing);
                         GuessScreen gus = new GuessScreen(_gameId, _player.ID, image);
-                        gus.Show();
+                        gus.ShowDialog();
                     }
                     break;
                 case ActionType.Wait:

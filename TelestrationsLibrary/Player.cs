@@ -8,13 +8,17 @@ namespace TelestrationsLibrary;
 public class Player
 {
     public string Name { get; set; }
-    public string IP { get; set; }
     public uint ID { get; }
     
     public Player(string name)
     {
         Name = name;
         ID = (uint)DateTime.Now.GetHashCode();
-        IP = "In Progress";
+    }
+
+    public Player(string name, uint id)
+    {
+        Name = name;
+        ID = id;
     }
 }

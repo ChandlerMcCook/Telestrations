@@ -13,7 +13,7 @@ public class Game
     public Player Host { get; set; }
     public List<Player> Players { get; set; } = [];
     public bool Started { get; set; } = false;
-    public GameState State { get; set; }
+    public GameState? State { get; set; }
 
     public Game() { }
     public Game(string gameName, Player host)
@@ -22,10 +22,6 @@ public class Game
         Host = host;
         Players.Add(Host);
         ID = (uint)DateTime.Now.GetHashCode(); // create game id based on hash of current time
-    }
-    public void AddPlayer(Player player)
-    {
-        Players.Add(player);
     }
     public void Start()
     {

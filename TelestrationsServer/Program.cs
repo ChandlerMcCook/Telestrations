@@ -27,10 +27,15 @@ app.MapGet("/games", () => {
     return gameList.Games.Select(g => new LobbyListing(g)).ToList();
 });
 
-app.MapPost("/games", (string gameName, Player host) =>
+app.MapPost("/games", (string gameName, uint hostId) =>
 {
-    uint gameId = gameList.CreateGame(gameName, host);
+    uint gameId = gameList.CreateGame(gameName, hostId);
     return Results.Ok(gameId);
+});
+
+app.MapPost("/players", (string playerName) =>
+{
+    uint playerId = gameList.CreateUnmatchedPlayer
 });
 
 app.MapGet("/games/{gameId}", (uint gameId) =>
@@ -53,14 +58,15 @@ app.MapGet("/games/{gameId}/players", (uint gameId) =>
     return Results.Ok(game.Players);
 });
 
-app.MapPost("/games/{gameId}/players", (uint gameId, Player player) =>
+app.MapPost("/games/{gameId}/players/{playerId}", (uint gameId, uint playerId) =>
 {
     Game? game = gameList.GetGame(gameId);
-    if (game == null)
+    Player? player = gameList.GetUnmatchedPlayer(playerId);
+    if (game == null || player == null)
     {
         return Results.NotFound();
     }
-    game.AddPlayer(player);
+    game.Players.Add(player);
     return Results.Ok();
 });
 
