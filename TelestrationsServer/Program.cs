@@ -19,7 +19,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 ServerGameList gameList = new ServerGameList();
-//byte[]? _image = null;
 byte[]? _image = File.ReadAllBytes(@"Resources/example-image.png");
 
 
@@ -29,13 +28,19 @@ app.MapGet("/games", () => {
 
 app.MapPost("/games", (string gameName, uint hostId) =>
 {
-    uint gameId = gameList.CreateGame(gameName, hostId);
+    Player? host = gameList.GetUnmatchedPlayer(hostId);
+    if (host == null)
+    {
+        return Results.NotFound();
+    }
+    uint gameId = gameList.CreateGame(gameName, host);
     return Results.Ok(gameId);
 });
 
 app.MapPost("/players", (string playerName) =>
 {
-    uint playerId = gameList.CreateUnmatchedPlayer
+    uint playerId = gameList.CreateUnmatchedPlayer(playerName);
+    return Results.Ok(playerId);
 });
 
 app.MapGet("/games/{gameId}", (uint gameId) =>
@@ -67,6 +72,7 @@ app.MapPost("/games/{gameId}/players/{playerId}", (uint gameId, uint playerId) =
         return Results.NotFound();
     }
     game.Players.Add(player);
+    gameList.UnmatchedPlayers.Remove(player);
     return Results.Ok();
 });
 
@@ -84,7 +90,7 @@ app.MapPut("/games/{gameId}/start", (uint gameId) =>
 app.MapGet("games/{gameId}/players/{playerId}/action", (uint gameId, uint playerId) =>
 {
     Game? game = gameList.GetGame(gameId);
-    if (game == null)
+    if (game == null || game.State == null)
     {
         return Results.NotFound();
     }
@@ -96,7 +102,7 @@ app.MapPost(
     (uint gameId, uint playerId, ClientAction action) =>
     {
         Game? game = gameList.GetGame(gameId);
-        if (game == null)
+        if (game == null || game.State == null)
         {
             return Results.NotFound();
         }

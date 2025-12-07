@@ -8,12 +8,12 @@ namespace TelestrationsUI;
 
 public partial class LandingPage : Form
 {
-    private readonly Player _user;
-    public LandingPage(Player user)
+    private readonly uint _playerId;
+    public LandingPage(uint playerId)
     {
         InitializeComponent();
 
-        _user = user;
+        _playerId = playerId;
         SetUpGrid();
     }
 
@@ -86,7 +86,7 @@ public partial class LandingPage : Form
     }
     private async void createGameButton_Click(object sender, EventArgs e)
     {
-        uint result = await FrontendLogic.CreateGame(gameNameTextBox.Text, _user);
+        uint result = await FrontendLogic.CreateGame(gameNameTextBox.Text, _playerId);
         //if (result)
         //{
         //    RefreshGrid();
@@ -131,11 +131,11 @@ public partial class LandingPage : Form
 
     private async void button1_Click(object sender, EventArgs e)
     {
-        uint gameId = await FrontendLogic.CreateGame("Bruh City", _user);
+        uint gameId = await FrontendLogic.CreateGame("Bruh City", _playerId);
         bool result = await FrontendLogic.StartGame(gameId);
         if (result)
         {
-            MasterForm form = new MasterForm(gameId, _user);
+            MasterForm form = new MasterForm(gameId, _playerId);
             form.Show();
         }
         else

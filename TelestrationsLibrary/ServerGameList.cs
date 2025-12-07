@@ -13,6 +13,7 @@ public class ServerGameList
 
     public uint CreateGame(string gameName, Player host)
     {
+        UnmatchedPlayers.Remove(host);
         var game = new Game(gameName, host);
         Games.Add(game);
         return game.ID;

@@ -31,9 +31,15 @@ internal class FrontendLogic
         return lobbyListings;
     }
 
-    public static async Task<uint> CreateGame(string gameName, Player host)
+    public static async Task<uint> CreateGame(string gameName, uint hostId)
     {
-        HttpResponseMessage response = await ServerCall.PostJson($"/games?gameName={gameName}", host);
+        HttpResponseMessage response = await ServerCall.Post($"/games?gameName={gameName}&hostId={hostId}");
+        return await response.Content.ReadFromJsonAsync<uint>();
+    }
+
+    public static async Task<uint> CreatePlayer(string playerName)
+    {
+        HttpResponseMessage response = await ServerCall.Post($"/players?playerName={playerName}");
         return await response.Content.ReadFromJsonAsync<uint>();
     }
 

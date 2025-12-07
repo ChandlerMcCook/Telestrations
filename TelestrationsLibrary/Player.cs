@@ -15,10 +15,4 @@ public class Player
         Name = name;
         ID = (uint)DateTime.Now.GetHashCode();
     }
-
-    public Player(string name, uint id)
-    {
-        Name = name;
-        ID = id;
-    }
 }

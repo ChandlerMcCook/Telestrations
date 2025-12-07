@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TelestrationsLibrary;
+using TelestrationsUI.Network;
 
 namespace TelestrationsUI;
 public partial class SignIn : Form
@@ -17,7 +18,7 @@ public partial class SignIn : Form
         InitializeComponent();
     }
 
-    public void signInButton_Click(object sender, EventArgs e)
+    public async void signInButton_Click(object sender, EventArgs e)
     {
         string playerName = playerNameTextBox.Text;
         if (playerName.Length == 0)
@@ -25,9 +26,9 @@ public partial class SignIn : Form
             MessageBox.Show("Please enter a valid name.");
             return;
         }
-        Player user = new Player(playerName);
+        uint playerId = await FrontendLogic.CreatePlayer(playerName);
 
-        LandingPage landingPage = new LandingPage(user);
+        LandingPage landingPage = new LandingPage(playerId);
         landingPage.Show();
 
         this.Close();

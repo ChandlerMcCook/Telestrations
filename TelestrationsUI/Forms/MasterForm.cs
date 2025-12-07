@@ -14,39 +14,39 @@ namespace TelestrationsUI.Forms;
 public partial class MasterForm : Form
 {
     private uint _gameId;
-    private Player _player;
-    private List<Player>? _playerList;
+    private uint _playerId;
+    private List<Player>? _playerList; // need to change to a viewable class
 
-    public MasterForm(uint gameId, Player player)
+    public MasterForm(uint gameId, uint playerId)
     {
         InitializeComponent();
         _gameId = gameId;
-        _player = player;
+        _playerId = playerId;
         HandleGame();
     }
 
     private async void HandleGame()
     {
-        _playerList = await FrontendLogic.GetPlayers(_gameId);
-        ServerAction? response = await FrontendLogic.GetNextAction(_gameId, _player.ID);
+        //_playerList = await FrontendLogic.GetPlayers(_gameId);
+        ServerAction? response = await FrontendLogic.GetNextAction(_gameId, _playerId);
         while (response!.Action != ActionType.Finish)
         {
             switch (response.Action)
             {
                 case ActionType.Create:
-                    CreateScreen cs = new CreateScreen(_gameId, _player.ID);
+                    CreateScreen cs = new CreateScreen(_gameId, _playerId);
                     cs.ShowDialog();
                     break;
                 case ActionType.Draw:
                 case ActionType.CreateAndDraw:
-                    GameScreen gs = new GameScreen(_gameId, _player.ID, response);
+                    GameScreen gs = new GameScreen(_gameId, _playerId, response);
                     gs.ShowDialog();
                     break;
                 case ActionType.Guess:
                     if (response.Drawing is not null)
                     {
                         Bitmap image = FrontendLogic.ConvertByteArrToBitmap(response.Drawing);
-                        GuessScreen gus = new GuessScreen(_gameId, _player.ID, image);
+                        GuessScreen gus = new GuessScreen(_gameId, _playerId, image);
                         gus.ShowDialog();
                     }
                     break;
@@ -54,7 +54,7 @@ public partial class MasterForm : Form
                     Thread.Sleep(2000);
                     break;
             }
-            response = await FrontendLogic.GetNextAction(_gameId, _player.ID);
+            response = await FrontendLogic.GetNextAction(_gameId, _playerId);
         }
     }
 }
