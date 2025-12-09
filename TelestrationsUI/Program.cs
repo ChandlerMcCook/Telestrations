@@ -10,7 +10,7 @@ namespace TelestrationsUI
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static async void Main()
+        static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -20,7 +20,8 @@ namespace TelestrationsUI
             //GameScreen gameScreen = new GameScreen();
             //gameScreen.Show();
 
-            uint playerId = await FrontendLogic.CreatePlayer("guy");
+            //uint playerId = FrontendLogic.CreatePlayer("guy");
+            uint playerId = 1;
             LandingPage page = new LandingPage(playerId);
             page.Show();
 

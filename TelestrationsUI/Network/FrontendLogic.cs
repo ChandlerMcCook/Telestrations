@@ -83,6 +83,13 @@ internal class FrontendLogic
         }
     }
 
+    public static byte[] ConvertBitmapToByteArr(Bitmap image)
+    {
+        using MemoryStream ms = new MemoryStream();
+        image.Save(ms, ImageFormat.Png);
+        return ms.ToArray();
+    }
+
     public static async Task<bool> StartGame(uint gameId)
     {
         HttpResponseMessage response = await ServerCall.Put($"games/{gameId}/start");
@@ -112,7 +119,7 @@ internal class FrontendLogic
 
     public static async Task<bool> SendAction(uint gameId, uint playerId, ClientAction action)
     {
-        HttpResponseMessage response = await ServerCall.PostJson($"games/{gameId}/player/{playerId}/action", action);
+        HttpResponseMessage response = await ServerCall.PostJson($"games/{gameId}/players/{playerId}/action", action);
         return response.IsSuccessStatusCode;
     }
 }

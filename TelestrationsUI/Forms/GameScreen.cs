@@ -131,9 +131,14 @@ public partial class GameScreen : Form
     private async void submitButton_Click(object sender, EventArgs e)
     {
         Bitmap image = telestrationsCanvas.GetCanvas();
-        bool result = await FrontendLogic.SendDrawing(image);
+        byte[] imageBytes = FrontendLogic.ConvertBitmapToByteArr(image);
+        ClientAction action = new ClientAction(Drawing: imageBytes);
+        bool result = await FrontendLogic.SendAction(gameId, playerId, action);
         if (result)
+        {
             MessageBox.Show("Success");
+            this.Close();
+        }
         else
             MessageBox.Show("Fail");
     }

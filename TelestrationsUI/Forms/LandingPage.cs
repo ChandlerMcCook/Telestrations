@@ -8,13 +8,19 @@ namespace TelestrationsUI;
 
 public partial class LandingPage : Form
 {
-    private readonly uint _playerId;
+    private uint _playerId;
     public LandingPage(uint playerId)
     {
         InitializeComponent();
 
         _playerId = playerId;
+        TempUser();
         SetUpGrid();
+    }
+
+    private async void TempUser()
+    {
+        _playerId = await FrontendLogic.CreatePlayer("guy");
     }
 
     private async void SetUpGrid()
