@@ -63,6 +63,18 @@ app.MapGet("/games/{gameId}/players", (uint gameId) =>
     return Results.Ok(game.Players);
 });
 
+// mainly for testharness
+app.MapGet("/games/{gameId}/players/{playerId}", (uint gameId, uint playerId) =>
+{
+    Game? game = gameList.GetGame(gameId);
+    Player? player = game!.Players.FirstOrDefault(p => p.ID == playerId); 
+    if (game == null || player == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(player.Name);
+});
+
 app.MapPost("/games/{gameId}/players/{playerId}", (uint gameId, uint playerId) =>
 {
     Game? game = gameList.GetGame(gameId);

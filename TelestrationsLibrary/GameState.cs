@@ -10,7 +10,7 @@ public class GameState
     private int _round = 0;
     private int _roundResponses = 0;
     private bool _isEven = false;
-    private List<(uint, List<ClientAction>)> _prompts = [];
+    private List<(uint creatorId, List<ClientAction> promptActions)> _playerPrompts = [];
     
     public List<Player> Players { get; set; }
 
@@ -20,7 +20,7 @@ public class GameState
         _isEven = Players.Count % 2 == 0;
         foreach (var p in Players)
         {
-            _prompts.Add((
+            _playerPrompts.Add((
                 p.ID,
                 new List<ClientAction>()
             ));
@@ -29,17 +29,17 @@ public class GameState
 
     private int GetCurrentPlayerIndex(uint playerID)
     {
-        return (_prompts.FindIndex(tup => tup.Item1 == playerID) + _round) % Players.Count;
+        return (_playerPrompts.FindIndex(tup => tup.creatorId == playerID) + _round) % Players.Count;
     }
 
     private bool PlayerAlreadyPlayed(uint playerID)
     {
-        return _prompts[GetCurrentPlayerIndex(playerID)].Item2.Count > _round;
+        return _playerPrompts[GetCurrentPlayerIndex(playerID)].promptActions.Count > _round;
     }
 
     private List<ClientAction> GetCurrentPromptList(uint playerID)
     {
-        return _prompts[GetCurrentPlayerIndex(playerID)].Item2;
+        return _playerPrompts[GetCurrentPlayerIndex(playerID)].promptActions;
     }
 
     private ClientAction GetLatestAction(uint playerID)
@@ -50,16 +50,15 @@ public class GameState
     public ServerAction GetNextAction(uint playerID)
     {
         ServerAction action;
-        if (_round == 0)
+        if (PlayerAlreadyPlayed(playerID))
+        {
+            action = new ServerAction(ActionType.Wait);
+        } 
+        else if (_round == 0)
         {
             action = (_isEven) 
                 ? new ServerAction(ActionType.CreateAndDraw) 
-                : new ServerAction(ActionType.Create)
-            ;
-        } 
-        else if (PlayerAlreadyPlayed(playerID))
-        {
-            action = new ServerAction(ActionType.Wait);
+                : new ServerAction(ActionType.Create);
         } 
         else if (GetLatestAction(playerID).Drawing is not null)
         {

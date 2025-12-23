@@ -1,4 +1,6 @@
-﻿namespace TelestrationsUI;
+﻿using TelestrationsLibrary;
+
+namespace TelestrationsUI;
 
 partial class GameScreen
 {
@@ -42,6 +44,7 @@ partial class GameScreen
         redoButton = new Button();
         undoButton = new Button();
         resetButton = new Button();
+        brushSizeLabel = new Label();
         colorTableLayoutPanel = new TableLayoutPanel();
         colorRadioButton20 = new TelestrationsUI.Components.ColorRadioButton();
         colorRadioButton3 = new TelestrationsUI.Components.ColorRadioButton();
@@ -65,6 +68,7 @@ partial class GameScreen
         colorRadioButton16 = new TelestrationsUI.Components.ColorRadioButton();
         tableLayoutPanel1 = new TableLayoutPanel();
         guessTextBox = new TextBox();
+        zoomLabel = new Label();
         ((System.ComponentModel.ISupportInitialize)telestrationsCanvas).BeginInit();
         toolsTableLayoutPanel.SuspendLayout();
         brushTableLayoutPanel.SuspendLayout();
@@ -79,15 +83,16 @@ partial class GameScreen
         // 
         telestrationsCanvas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         telestrationsCanvas.BackColor = SystemColors.ScrollBar;
-        telestrationsCanvas.CurrentColor = Color.Black;
-        telestrationsCanvas.DrawMode = TelestrationsLibrary.Globals.DrawingMode.Draw;
+        telestrationsCanvas.DrawMode = Globals.DrawingMode.Draw;
         telestrationsCanvas.Location = new Point(3, 223);
         telestrationsCanvas.Name = "telestrationsCanvas";
-        telestrationsCanvas.Size = new Size(1272, 818);
+        telestrationsCanvas.Readonly = false;
+        telestrationsCanvas.Size = new Size(1272, 798);
         telestrationsCanvas.SmoothMode = false;
         telestrationsCanvas.TabIndex = 4;
         telestrationsCanvas.TabStop = false;
         telestrationsCanvas.TeleCursor = Cursors.Default;
+        telestrationsCanvas.ZoomLabel = null;
         // 
         // toolsTableLayoutPanel
         // 
@@ -196,12 +201,14 @@ partial class GameScreen
         // 
         // leftTableLayoutPanel
         // 
-        leftTableLayoutPanel.ColumnCount = 2;
-        leftTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        leftTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        leftTableLayoutPanel.ColumnCount = 3;
+        leftTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+        leftTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+        leftTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
         leftTableLayoutPanel.Controls.Add(penSizeTrackBar, 0, 1);
         leftTableLayoutPanel.Controls.Add(tableLayoutPanel4, 0, 0);
-        leftTableLayoutPanel.Controls.Add(resetButton, 1, 0);
+        leftTableLayoutPanel.Controls.Add(resetButton, 2, 0);
+        leftTableLayoutPanel.Controls.Add(brushSizeLabel, 1, 0);
         leftTableLayoutPanel.Dock = DockStyle.Fill;
         leftTableLayoutPanel.Location = new Point(3, 3);
         leftTableLayoutPanel.Name = "leftTableLayoutPanel";
@@ -213,7 +220,7 @@ partial class GameScreen
         // 
         // penSizeTrackBar
         // 
-        leftTableLayoutPanel.SetColumnSpan(penSizeTrackBar, 2);
+        leftTableLayoutPanel.SetColumnSpan(penSizeTrackBar, 3);
         penSizeTrackBar.Dock = DockStyle.Fill;
         penSizeTrackBar.LargeChange = 10;
         penSizeTrackBar.Location = new Point(3, 57);
@@ -240,15 +247,15 @@ partial class GameScreen
         tableLayoutPanel4.RowCount = 1;
         tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
         tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-        tableLayoutPanel4.Size = new Size(145, 48);
+        tableLayoutPanel4.Size = new Size(94, 48);
         tableLayoutPanel4.TabIndex = 2;
         // 
         // redoButton
         // 
         redoButton.Dock = DockStyle.Fill;
-        redoButton.Location = new Point(75, 3);
+        redoButton.Location = new Point(50, 3);
         redoButton.Name = "redoButton";
-        redoButton.Size = new Size(67, 42);
+        redoButton.Size = new Size(41, 42);
         redoButton.TabIndex = 4;
         redoButton.Text = "redo";
         redoButton.UseVisualStyleBackColor = true;
@@ -259,7 +266,7 @@ partial class GameScreen
         undoButton.Dock = DockStyle.Fill;
         undoButton.Location = new Point(3, 3);
         undoButton.Name = "undoButton";
-        undoButton.Size = new Size(66, 42);
+        undoButton.Size = new Size(41, 42);
         undoButton.TabIndex = 3;
         undoButton.Text = "undo";
         undoButton.UseVisualStyleBackColor = true;
@@ -268,13 +275,24 @@ partial class GameScreen
         // resetButton
         // 
         resetButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        resetButton.Location = new Point(154, 3);
+        resetButton.Location = new Point(203, 3);
         resetButton.Name = "resetButton";
-        resetButton.Size = new Size(145, 48);
+        resetButton.Size = new Size(96, 48);
         resetButton.TabIndex = 0;
         resetButton.Text = "CLEAR";
         resetButton.UseVisualStyleBackColor = true;
         resetButton.Click += resetButton_Click;
+        // 
+        // brushSizeLabel
+        // 
+        brushSizeLabel.Anchor = AnchorStyles.None;
+        brushSizeLabel.AutoSize = true;
+        brushSizeLabel.BackColor = SystemColors.ActiveCaption;
+        brushSizeLabel.Location = new Point(139, 14);
+        brushSizeLabel.Name = "brushSizeLabel";
+        brushSizeLabel.Size = new Size(22, 25);
+        brushSizeLabel.TabIndex = 3;
+        brushSizeLabel.Text = "0";
         // 
         // colorTableLayoutPanel
         // 
@@ -686,13 +704,15 @@ partial class GameScreen
         tableLayoutPanel1.Controls.Add(toolsTableLayoutPanel, 0, 1);
         tableLayoutPanel1.Controls.Add(telestrationsCanvas, 0, 2);
         tableLayoutPanel1.Controls.Add(guessTextBox, 0, 0);
+        tableLayoutPanel1.Controls.Add(zoomLabel, 0, 3);
         tableLayoutPanel1.Dock = DockStyle.Fill;
-        tableLayoutPanel1.Location = new Point(0, 0);
+        tableLayoutPanel1.Location = new Point(10, 10);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
-        tableLayoutPanel1.RowCount = 3;
+        tableLayoutPanel1.RowCount = 4;
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 100F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
         tableLayoutPanel1.Size = new Size(1278, 1044);
         tableLayoutPanel1.TabIndex = 34;
         // 
@@ -706,18 +726,28 @@ partial class GameScreen
         guessTextBox.Size = new Size(773, 59);
         guessTextBox.TabIndex = 34;
         guessTextBox.TextAlign = HorizontalAlignment.Center;
-        guessTextBox.TextChanged += guessTextBox_TextChanged;
+        // 
+        // zoomLabel
+        // 
+        zoomLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        zoomLabel.AutoSize = true;
+        zoomLabel.Location = new Point(1218, 1024);
+        zoomLabel.Name = "zoomLabel";
+        zoomLabel.Size = new Size(57, 20);
+        zoomLabel.TabIndex = 35;
+        zoomLabel.Text = "100%";
         // 
         // GameScreen
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.ActiveCaption;
-        ClientSize = new Size(1278, 1044);
+        ClientSize = new Size(1298, 1064);
         Controls.Add(tableLayoutPanel1);
         KeyPreview = true;
-        MinimumSize = new Size(1300, 1100);
+        MinimumSize = new Size(1320, 1120);
         Name = "GameScreen";
+        Padding = new Padding(10);
         Text = "GameScreen";
         FormClosed += GameScreen_FormClosed;
         Load += GameScreen_Load;
@@ -775,4 +805,6 @@ partial class GameScreen
     private Components.ColorRadioButton colorRadioButton16;
     private TableLayoutPanel tableLayoutPanel1;
     private TextBox guessTextBox;
+    private Label brushSizeLabel;
+    private Label zoomLabel;
 }

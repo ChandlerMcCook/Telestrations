@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LandingPage));
             hostGameGroupBox = new GroupBox();
             label1 = new Label();
             gameNameTextBox = new TextBox();
@@ -131,6 +132,7 @@
             Controls.Add(button1);
             Controls.Add(joinGameGroupBox);
             Controls.Add(hostGameGroupBox);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LandingPage";
             Text = "Pick a Game";
             FormClosed += LandingPage_FormClosed;

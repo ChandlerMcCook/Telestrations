@@ -20,6 +20,7 @@ public partial class TelestrationsPictureBox : PictureBox
     // drawing
     private bool _isDrawing = false;
     private Point _lastPoint = Point.Empty;
+    private bool _busyFilling = false;
 
     // zoom
     private RectangleF _imageRect = new RectangleF(
@@ -29,18 +30,29 @@ public partial class TelestrationsPictureBox : PictureBox
     private PointF _panMouseLocation = PointF.Empty; // holds a beginning mouse location for when the user pans the screen
     private PointF _imageLocation = PointF.Empty; // holds a beginning image location for when the user pans the screen
     private float _zoomFactor = 1.0f;
-    private float _zoomStep = .15f;
+    private float _zoomStep = .25f;
 
     // selection
     private RectangleF _selectionRect = new RectangleF();
     private Brush _selectionBrush = new SolidBrush(Color.Gray);
 
-    public Pen TelePen { get; set; } = new Pen(Color.Black, 1);
-    public Color CurrentColor
+
+    private float ZoomFactor 
     {
-        get { return TelePen.Color; }
-        set { TelePen.Color = value; }
+        get
+        {
+            return _zoomFactor;
+        }
+        set
+        {
+            _zoomFactor = value;
+            if (ZoomLabel != null)
+                ZoomLabel.Text = ((int)(_zoomFactor*100)).ToString() + "%";
+        }
     }
+    public Label? ZoomLabel { get; set; } = null;
+    public bool Readonly { get; set; } = false;
+    public Pen TelePen { get; set; } = new Pen(Color.Black, 1);
     public ImageHistory CanvasImageHistory { get; set; }
     public DrawingMode DrawMode { get; set; } = DrawingMode.Draw;
     public Cursor TeleCursor
@@ -101,18 +113,25 @@ public partial class TelestrationsPictureBox : PictureBox
             case MouseButtons.Left:
                 if (DrawMode == DrawingMode.Draw)
                 {
-                    _isDrawing = true;
+                    if (Readonly == false)
+                        _isDrawing = true;
                     _lastPoint = e.Location;
+                    DrawPoint(e);
                 }
                 else
                 {
-                    PointF zoomCoords = ScreenToImage(e.Location);
-                    FloodFill.FloodFillBitmap(_image, new Point((int)zoomCoords.X, (int)zoomCoords.Y), TelePen.Color);
+                    if (_busyFilling == false)
+                    {
+                        _busyFilling = true;
+                        PointF zoomCoords = ScreenToImage(e.Location);
+                        FloodFill.FloodFillBitmap(_image, new Point((int)zoomCoords.X, (int)zoomCoords.Y), TelePen.Color);
+                        _busyFilling = false;
+                    }
                 }
                 break;
             case MouseButtons.Right:
             //case MouseButtons.Middle:
-                if (_zoomFactor >= 1f) // only pan when zoomed in
+                if (ZoomFactor >= 1f) // only pan when zoomed in
                 {
                     _panMouseLocation = e.Location;
                     _imageLocation = _imageRect.Location;
@@ -171,61 +190,27 @@ public partial class TelestrationsPictureBox : PictureBox
             case MouseButtons.Left:
                 if (_isDrawing)
                 {
-                    float radius = TelePen.Width / 2f;
-                    PointF lastImagePoint = ScreenToImage(_lastPoint);
-                    PointF currentImagePoint = ScreenToImage(e.Location);
-                    using (Graphics g = Graphics.FromImage(_image))
-                    {
-                        g.SmoothingMode = SmoothingMode.None;
-                        if (SmoothMode && TelePen.Width > 1)
-                        {
-                            g.SmoothingMode = SmoothingMode.AntiAlias;
-                        }
-
-                        // draw a filled circle at lastImagePoint 
-                        g.FillEllipse(
-                            new SolidBrush(TelePen.Color),
-                            lastImagePoint.X - radius,
-                            lastImagePoint.Y - radius,
-                            TelePen.Width,
-                            TelePen.Width
-                        );
-
-                        // draw a line between lastImagePoint and currentImagePoint
-                        g.DrawLine(TelePen, lastImagePoint, currentImagePoint);
-
-                        // draw a filled circle at currentImagePoint
-                        g.FillEllipse(
-                            new SolidBrush(TelePen.Color),
-                            currentImagePoint.X - radius,
-                            currentImagePoint.Y - radius,
-                            TelePen.Width,
-                            TelePen.Width
-                        );
-                    }
-                    _lastPoint = e.Location;
+                    DrawPoint(e);
                 }
                 break;
             case MouseButtons.Right:
             //case MouseButtons.Middle:
-                if (_zoomFactor < 1f) break;
+                if (ZoomFactor < 1f) break;
 
                 float newX = _imageLocation.X + (e.Location.X - _panMouseLocation.X);
                 float newY = _imageLocation.Y + (e.Location.Y - _panMouseLocation.Y);
-                float scaledImageWidth = _imageRect.Width * _zoomFactor; // basically the boundary of the image scaled to zoom
-                float scaledImageHeight = _imageRect.Height * _zoomFactor;
+                float scaledImageWidth = _imageRect.Width * ZoomFactor; // basically the boundary of the image scaled to zoom
+                float scaledImageHeight = _imageRect.Height * ZoomFactor;
 
                 newX = Math.Min(newX, Globals.ZOOMED_IN_BORDER_PIXELS);
                 newX = newX + scaledImageWidth > Globals.CANVAS_SIZE_X
                     ? newX
-                    : Globals.CANVAS_SIZE_X - scaledImageWidth - Globals.ZOOMED_IN_BORDER_PIXELS
-                ;
+                    : Globals.CANVAS_SIZE_X - scaledImageWidth - Globals.ZOOMED_IN_BORDER_PIXELS;
 
                 newY = Math.Min(newY, Globals.ZOOMED_IN_BORDER_PIXELS);
                 newY = newY + scaledImageHeight > Globals.CANVAS_SIZE_Y 
                     ? newY
-                    : Globals.CANVAS_SIZE_Y - scaledImageHeight - Globals.ZOOMED_IN_BORDER_PIXELS
-                ;
+                    : Globals.CANVAS_SIZE_Y - scaledImageHeight - Globals.ZOOMED_IN_BORDER_PIXELS;
 
                 _imageRect.Location = new PointF(newX, newY);
 
@@ -236,21 +221,58 @@ public partial class TelestrationsPictureBox : PictureBox
         return;
     }
 
+    private void DrawPoint(MouseEventArgs e)
+    {
+        float radius = TelePen.Width / 2f;
+        PointF lastImagePoint = ScreenToImage(_lastPoint);
+        PointF currentImagePoint = ScreenToImage(e.Location);
+        using (Graphics g = Graphics.FromImage(_image))
+        {
+            g.SmoothingMode = SmoothingMode.None;
+            if (SmoothMode && TelePen.Width > 1)
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+            }
+
+            // draw a filled circle at lastImagePoint 
+            g.FillEllipse(
+                new SolidBrush(TelePen.Color),
+                lastImagePoint.X - radius,
+                lastImagePoint.Y - radius,
+                TelePen.Width,
+                TelePen.Width
+            );
+
+            // draw a line between lastImagePoint and currentImagePoint
+            g.DrawLine(TelePen, lastImagePoint, currentImagePoint);
+
+            // draw a filled circle at currentImagePoint
+            g.FillEllipse(
+                new SolidBrush(TelePen.Color),
+                currentImagePoint.X - radius,
+                currentImagePoint.Y - radius,
+                TelePen.Width,
+                TelePen.Width
+            );
+        }
+        _lastPoint = e.Location;
+    }
+
     protected override void OnMouseWheel(MouseEventArgs e)
     {
         base.OnMouseWheel(e);
 
         _panMouseLocation = e.Location;
-        float oldZoom = _zoomFactor;
+        float oldZoom = ZoomFactor;
 
-        _zoomFactor += e.Delta > 0 ? _zoomStep : -_zoomStep;
-        _zoomFactor = Math.Max(Globals.MIN_ZOOM, _zoomFactor); // clamp
-        _zoomFactor = Math.Min(Globals.MAX_ZOOM, _zoomFactor); // clamp
+        ZoomFactor += e.Delta > 0 ? _zoomStep : -_zoomStep;
+        ZoomFactor = Math.Max(Globals.MIN_ZOOM, ZoomFactor); // clamp
+        ZoomFactor = Math.Min(Globals.MAX_ZOOM, ZoomFactor); // clamp
 
-        if (_zoomFactor < 1.0f)
+        if (ZoomFactor <= 1.0f)
         {
-            float drawW = _imageRect.Width * _zoomFactor;
-            float drawH = _imageRect.Height * _zoomFactor;
+            float drawW = _imageRect.Width * ZoomFactor;
+            float drawH = _imageRect.Height * ZoomFactor;
 
             _imageRect.X = (this.Width - drawW) / 2f;
             _imageRect.Y = (this.Height - drawH) / 2f;
@@ -268,8 +290,8 @@ public partial class TelestrationsPictureBox : PictureBox
     {
         base.OnSizeChanged(e);
 
-        float drawW = _imageRect.Width * _zoomFactor;
-        float drawH = _imageRect.Height * _zoomFactor;
+        float drawW = _imageRect.Width * ZoomFactor;
+        float drawH = _imageRect.Height * ZoomFactor;
 
         _imageRect.X = (this.Width - drawW) / 2f;
         _imageRect.Y = (this.Height - drawH) / 2f;
@@ -289,8 +311,8 @@ public partial class TelestrationsPictureBox : PictureBox
         RectangleF drawRect = new RectangleF(
             _imageRect.X,
             _imageRect.Y,
-            _imageRect.Width * _zoomFactor,
-            _imageRect.Height * _zoomFactor
+            _imageRect.Width * ZoomFactor,
+            _imageRect.Height * ZoomFactor
         );
 
         e.Graphics.DrawImage(_image, drawRect);
@@ -324,7 +346,7 @@ public partial class TelestrationsPictureBox : PictureBox
         if (currentRect.Contains(mousePosition) == false)
             return rect;
 
-        float scaleRatio = currentZoom / _zoomFactor;
+        float scaleRatio = currentZoom / ZoomFactor;
 
         PointF mouseOffset = new PointF(mousePosition.X - rect.X,
                                         mousePosition.Y - rect.Y);
@@ -345,8 +367,8 @@ public partial class TelestrationsPictureBox : PictureBox
     private PointF ScreenToImage(PointF p)
     {
         return new PointF(
-            (p.X - _imageRect.X) / _zoomFactor,
-            (p.Y - _imageRect.Y) / _zoomFactor
+            (p.X - _imageRect.X) / ZoomFactor,
+            (p.Y - _imageRect.Y) / ZoomFactor
         );
     }
 

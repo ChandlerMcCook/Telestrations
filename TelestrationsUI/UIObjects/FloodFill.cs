@@ -21,7 +21,7 @@ public class FloodFill
     {
         using (BitmapPixelSetter pixelSetter = new BitmapPixelSetter(image, start, newColor))
         {
-            if (pixelSetter.ShouldFill(start.X, start.Y) == false) return;
+            if (pixelSetter.ShouldFill(start.X, start.Y) == false || pixelSetter.SameColor()) return;
 
             Queue<FloodFillPoint> queue = new Queue<FloodFillPoint>();
 

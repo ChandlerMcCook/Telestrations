@@ -10,7 +10,7 @@ namespace TelestrationsUI.UIObjects
         private readonly byte* _ptr;
         private readonly int _stride;
         private readonly int _bytesPerPixel = 4;
-        private readonly Color _startColor;
+        private readonly Color _startColor = Color.Empty;
         private readonly Color _newColor;
 
         internal BitmapPixelSetter(Bitmap image, Point startPoint, Color newColor)
@@ -23,7 +23,8 @@ namespace TelestrationsUI.UIObjects
             _ptr = (byte*)_data.Scan0;
             _stride = _data.Stride;
 
-            _startColor = GetPixel(startPoint.X, startPoint.Y);
+            if (InBounds(startPoint.X, startPoint.Y))
+                _startColor = GetPixel(startPoint.X, startPoint.Y);
             _newColor = newColor;
         }
 
@@ -63,6 +64,11 @@ namespace TelestrationsUI.UIObjects
         {
             return (uint)x < (uint)_bitmap.Width &&
                    (uint)y < (uint)_bitmap.Height;
+        }
+
+        internal bool SameColor()
+        {
+            return _newColor.ToArgb() == _startColor.ToArgb();
         }
 
         internal bool ShouldFill(int x, int y)

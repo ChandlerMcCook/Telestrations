@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,22 +21,29 @@ public partial class GameScreen : Form
     private Color _prevColor = Color.Black;
     private uint gameId;
     private uint playerId;
+    private ActionType actionType;
 
     public GameScreen(uint gid, uint pid, ServerAction action)
     {
         InitializeComponent();
         gameId = gid;
         playerId = pid;
-        if (action.Action == ActionType.Draw)
+        actionType = action.Action;
+
+        if (actionType == ActionType.Draw)
         {
             guessTextBox.Text = action.Guess;
             guessTextBox.ReadOnly = true;
         }
     }
-    private void GameScreen_Load(object sender, EventArgs e)
+
+    private async void GameScreen_Load(object sender, EventArgs e)
     {
+        if (Debugger.IsAttached)
+            this.Text = await FrontendLogic.GetPlayerName(gameId, playerId);
         pencilButton.PerformClick();
         colorRadioButton1.PerformClick();
+        telestrationsCanvas.ZoomLabel = zoomLabel;
     }
 
     private void GameScreen_FormClosed(object sender, FormClosedEventArgs e)
@@ -53,7 +61,9 @@ public partial class GameScreen : Form
 
     private void penSizeTrackBar_Scroll(object sender, EventArgs e)
     {
+        penSizeTrackBar.Value = (int)Math.Round(penSizeTrackBar.Value / 10.0) * 10 + 1;
         telestrationsCanvas.TelePen.Width = penSizeTrackBar.Value;
+        brushSizeLabel.Text = ((penSizeTrackBar.Value - 1) / 10).ToString();
     }
 
     private void undoButton_Click(object sender, EventArgs e)
@@ -110,35 +120,25 @@ public partial class GameScreen : Form
         telestrationsCanvas.SmoothMode = true;
         telestrationsCanvas.TelePen.Color = _prevColor;
     }
+
     private void eraserButton_Click(object sender, EventArgs e)
     {
         telestrationsCanvas.TeleCursor = Cursors.Default;
         telestrationsCanvas.DrawMode = DrawingMode.Draw;
         telestrationsCanvas.SmoothMode = false;
-        _prevColor = telestrationsCanvas.TelePen.Color;
         telestrationsCanvas.TelePen.Color = Color.White;
     }
 
-    //private async void submitButton_Click(object sender, EventArgs e)
-    //{
-    //    Bitmap image = telestrationsCanvas.GetCanvas();
-    //    bool result = await FrontendLogic.SendDrawing(image);
-    //    if (result)
-    //        MessageBox.Show("Success");
-    //    else
-    //        MessageBox.Show("Fail");
-    //}
     private async void submitButton_Click(object sender, EventArgs e)
     {
         Bitmap image = telestrationsCanvas.GetCanvas();
         byte[] imageBytes = FrontendLogic.ConvertBitmapToByteArr(image);
-        ClientAction action = new ClientAction(Drawing: imageBytes);
+        ClientAction action = actionType == ActionType.CreateAndDraw
+            ? new ClientAction(Guess: guessTextBox.Text, Drawing: imageBytes)
+            : new ClientAction(Drawing: imageBytes);
         bool result = await FrontendLogic.SendAction(gameId, playerId, action);
         if (result)
-        {
-            MessageBox.Show("Success");
             this.Close();
-        }
         else
             MessageBox.Show("Fail");
     }
@@ -148,28 +148,9 @@ public partial class GameScreen : Form
         if (e.KeyCode == Keys.Z && e.Control)
         {
             if (e.Shift)
-            {
-                if (telestrationsCanvas.CanvasImageHistory.CanRedo())
-                {
-                    Bitmap redoImage = telestrationsCanvas.CanvasImageHistory.Redo();
-                    telestrationsCanvas.SetCanvas(redoImage);
-                }
-                redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
-            }
+                redoButton_Click(sender, e);
             else
-            {
-                if (telestrationsCanvas.CanvasImageHistory.CanUndo())
-                {
-                    Bitmap undoImage = telestrationsCanvas.CanvasImageHistory.Undo();
-                    telestrationsCanvas.SetCanvas(undoImage);
-                }
-                redoButton.Enabled = telestrationsCanvas.CanvasImageHistory.CanRedo();
-            }
+                undoButton_Click(sender, e);
         }
-    }
-
-    private void guessTextBox_TextChanged(object sender, EventArgs e)
-    {
-
     }
 }

@@ -15,7 +15,7 @@ public partial class MasterForm : Form
 {
     private uint _gameId;
     private uint _playerId;
-    private List<Player>? _playerList; // need to change to a viewable class
+    private List<Player>? _playerList; // TODO need to change to a viewable class
 
     public MasterForm(uint gameId, uint playerId)
     {

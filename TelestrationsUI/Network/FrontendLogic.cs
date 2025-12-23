@@ -43,6 +43,12 @@ internal class FrontendLogic
         return await response.Content.ReadFromJsonAsync<uint>();
     }
 
+    public static async Task<bool> AddPlayer(uint gameId, uint playerId)
+    {
+        HttpResponseMessage response = await ServerCall.Post($"/games/{gameId}/players/{playerId}");
+        return response.IsSuccessStatusCode;
+    }
+
     public static async Task<List<Player>?> GetPlayers(uint gameId)
     {
         HttpResponseMessage response = await ServerCall.Get($"games/{gameId}/players");
@@ -58,22 +64,35 @@ internal class FrontendLogic
         return players;
     }
 
-    public static async Task<bool> SendDrawing(Bitmap image)
+    public static async Task<string?> GetPlayerName(uint gameId, uint playerId)
     {
-        HttpResponseMessage response = await ServerCall.PostImage("/image", image);
-        return response.IsSuccessStatusCode;
-    }
+        HttpResponseMessage response = await ServerCall.Get($"games/{gameId}/players/{playerId}");
 
-    public static async Task<Bitmap> GetDrawing()
-    {
-        HttpResponseMessage response = await ServerCall.Get("/image");
-
-        byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
-        using (MemoryStream ms = new MemoryStream(imageBytes))
+        if (response.IsSuccessStatusCode == false)
         {
-            return new Bitmap(ms);
+            Console.WriteLine($"Error: {response.StatusCode}");
+            return null;
         }
+
+        return await response.Content.ReadAsStringAsync();
     }
+
+    //public static async Task<bool> SendDrawing(Bitmap image)
+    //{
+    //    HttpResponseMessage response = await ServerCall.PostImage("/image", image);
+    //    return response.IsSuccessStatusCode;
+    //}
+
+    //public static async Task<Bitmap> GetDrawing()
+    //{
+    //    HttpResponseMessage response = await ServerCall.Get("/image");
+
+    //    byte[] imageBytes = await response.Content.ReadAsByteArrayAsync();
+    //    using (MemoryStream ms = new MemoryStream(imageBytes))
+    //    {
+    //        return new Bitmap(ms);
+    //    }
+    //}
 
     public static Bitmap ConvertByteArrToBitmap(byte[] bytes)
     {

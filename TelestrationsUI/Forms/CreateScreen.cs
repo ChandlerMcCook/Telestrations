@@ -24,18 +24,24 @@ public partial class CreateScreen : Form
         playerId = pid;
     }
 
-    private async void button1_Click(object sender, EventArgs e)
+    private async void submitButton_Click(object sender, EventArgs e)
     {
+        string prompt = textBox1.Text.Trim();
+        if (prompt.Length < 1)
+        {
+            MessageBox.Show("Please enter a prompt");
+            return;
+        }
+
         ClientAction action = new ClientAction(Guess: textBox1.Text);
         bool result = await FrontendLogic.SendAction(gameId, playerId, action);
         if (result)
         {
-            MessageBox.Show("Yayy");
+            this.Close();
         } 
         else
         {
             MessageBox.Show("Nayy");
         }
-        this.Close();
     }
 }

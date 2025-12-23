@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,20 +22,27 @@ public partial class GuessScreen : Form
         InitializeComponent();
         gameId = gid;
         playerId = pid;
-        guessPictureBox.Image = image;
+        guessTelePictureBox.SetCanvas(image);
     }
 
-    private async void button1_Click(object sender, EventArgs e)
+    private async void submitButton_Click(object sender, EventArgs e)
     {
-        ClientAction action = new ClientAction(Guess:guessTextBox.Text);
+        ClientAction action = new ClientAction(Guess: guessTextBox.Text);
         bool result = await FrontendLogic.SendAction(gameId, playerId, action);
         if (result)
         {
             MessageBox.Show("Yayy");
+            this.Close();
         }
         else
         {
             MessageBox.Show("Nayy");
         }
+    }
+
+    private async void GuessScreen_Load(object sender, EventArgs e)
+    {
+        if (Debugger.IsAttached)
+            this.Text = await FrontendLogic.GetPlayerName(gameId, playerId);
     }
 }

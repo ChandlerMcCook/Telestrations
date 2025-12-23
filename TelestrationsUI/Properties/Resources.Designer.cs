@@ -79,5 +79,15 @@ namespace TelestrationsUI.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Telestrations_icon {
+            get {
+                object obj = ResourceManager.GetObject("Telestrations_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

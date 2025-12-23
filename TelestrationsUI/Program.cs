@@ -1,6 +1,7 @@
 using TelestrationsUI.Forms;
 using TelestrationsLibrary;
 using TelestrationsUI.Network;
+using System.Diagnostics;
 
 namespace TelestrationsUI
 {
@@ -15,15 +16,17 @@ namespace TelestrationsUI
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            //SignIn signIn = new SignIn();
-            //signIn.Show();
-            //GameScreen gameScreen = new GameScreen();
-            //gameScreen.Show();
-
-            //uint playerId = FrontendLogic.CreatePlayer("guy");
-            uint playerId = 1;
-            LandingPage page = new LandingPage(playerId);
-            page.Show();
+            
+            if (Debugger.IsAttached)
+            {
+                TestHarness th = new TestHarness();
+                th.Show();
+            }
+            else
+            {
+                SignIn si = new SignIn();
+                si.Show();
+            }
 
             Application.Run();
         }
